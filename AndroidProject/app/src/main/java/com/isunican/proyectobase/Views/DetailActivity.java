@@ -20,7 +20,11 @@ import android.widget.TextView;
 */
 public class DetailActivity extends AppCompatActivity {
 
-    TextView textView;
+    TextView rotulo;
+    TextView direccion;
+    TextView localidad;
+    TextView precioGasoleoA;
+    TextView precioGasolina95;
     Gasolinera g;
 
     /**
@@ -42,9 +46,18 @@ public class DetailActivity extends AppCompatActivity {
         // captura el TextView
         // obtiene el objeto Gasolinera a mostrar
         // y lo introduce en el TextView convertido a cadena de texto
-        textView = findViewById(R.id.textView);
+        rotulo = findViewById(R.id.rotuloId);
+        direccion = findViewById(R.id.direccionId);
+        localidad = findViewById(R.id.localidadId);
+        precioGasoleoA = findViewById(R.id.precioGasoleoAId);
+        precioGasolina95 = findViewById(R.id.precioGasolina95Id);
+
         g = getIntent().getExtras().getParcelable(getResources().getString(R.string.pasoDatosGasolinera));
-        textView.setText(g.toString());
+        rotulo.setText(g.getRotulo());
+        direccion.setText(g.getDireccion());
+        localidad.setText(g.getLocalidad());
+        precioGasoleoA.setText(String.valueOf(g.getGasoleoA()));
+        precioGasolina95.setText(String.valueOf(g.getGasolina95()));
 
     }
 }
