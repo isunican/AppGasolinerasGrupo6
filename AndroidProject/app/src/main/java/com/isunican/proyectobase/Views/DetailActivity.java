@@ -3,8 +3,12 @@ package com.isunican.proyectobase.Views;
 import com.isunican.proyectobase.R;
 import com.isunican.proyectobase.Model.*;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.text.TextUtils;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -25,7 +29,11 @@ public class DetailActivity extends AppCompatActivity {
     TextView localidad;
     TextView precioGasoleoA;
     TextView precioGasolina95;
+    ImageView marcaImagen;
+    private Context context=this;
     Gasolinera g;
+
+
 
     /**
      * onCreate
@@ -51,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         localidad = findViewById(R.id.localidadId);
         precioGasoleoA = findViewById(R.id.precioGasoleoAId);
         precioGasolina95 = findViewById(R.id.precioGasolina95Id);
-
+        marcaImagen=findViewById(R.id.marcaGasolineraId);
         g = getIntent().getExtras().getParcelable(getResources().getString(R.string.pasoDatosGasolinera));
         rotulo.setText(g.getRotulo());
         direccion.setText(g.getDireccion());
@@ -59,5 +67,20 @@ public class DetailActivity extends AppCompatActivity {
         precioGasoleoA.setText(String.valueOf(g.getGasoleoA()));
         precioGasolina95.setText(String.valueOf(g.getGasolina95()));
 
+        // carga icono
+        {
+            String rotuleImageID = g.getRotulo().toLowerCase();
+
+            // Tengo que protegerme ante el caso en el que el rotulo solo tiene digitos.
+            // En ese caso getIdentifier devuelve esos digitos en vez de 0.
+            int imageID = context.getResources().getIdentifier(rotuleImageID,
+                    "drawable", context.getPackageName());
+
+            if (imageID == 0 || TextUtils.isDigitsOnly(rotuleImageID)) {
+                imageID = context.getResources().getIdentifier(getResources().getString(R.string.pordefecto),
+                        "drawable", context.getPackageName());
+            }
+            marcaImagen.setImageResource(imageID);
+        }
     }
 }
