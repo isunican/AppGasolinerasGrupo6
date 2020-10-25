@@ -14,6 +14,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
@@ -38,7 +39,7 @@ public class MejoraDetalleGasolineraUITest {
         -Gasolina: 1.179€
          */
 
-        onData(withId(R.id.listViewGasolineras)).atPosition(4).perform(click());
+        onData(anything()).inAdapterView(withId(R.id.listViewGasolineras)).atPosition(3).perform(click());
 
         /*
         Ahora compruebo que cada valor de la interfaz es el esperado.
