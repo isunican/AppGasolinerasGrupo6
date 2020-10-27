@@ -105,6 +105,7 @@ public class ParserJSONGasolineras {
         String direccion = "";
         int id = -1;
         double gasoleoA = 0.0;
+        double gasoleoB = 0.0;
         double sinplomo95 = 0.0;
 
         while(reader.hasNext()){
@@ -120,6 +121,11 @@ public class ParserJSONGasolineras {
                 id = reader.nextInt();
             }else if(name.equals("Precio Gasoleo A") && reader.peek() != JsonToken.NULL) {
                 gasoleoA = parseDouble(reader.nextString().replace(",", "."));
+            }else if(name.equals("Precio Gasoleo B") && reader.peek() != JsonToken.NULL) {
+                gasoleoB = parseDouble(reader.nextString().replace(",", "."));
+                if(gasoleoB==-1.0){
+                    gasoleoB=1000.0;
+                }
             }else if(name.equals("Precio Gasolina 95 E5") && reader.peek() != JsonToken.NULL) {
                 sinplomo95 = parseDouble(reader.nextString().replace(",", "."));
             }else if(name.equals("Dirección")){
@@ -130,7 +136,7 @@ public class ParserJSONGasolineras {
 
         }
         reader.endObject();
-        return new Gasolinera(id,localidad,provincia,direccion,gasoleoA, sinplomo95,rotulo);
+        return new Gasolinera(id,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo);
     }
 
     private static double parseDouble(String str) {

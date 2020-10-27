@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import android.util.Log;
@@ -268,12 +269,16 @@ public class MainActivity extends AppCompatActivity {
 
         private Context context;
         private List<Gasolinera> listaGasolineras;
+        private List<Double> listaDistancias;
 
         // Constructor
         public GasolineraArrayAdapter(Context context, int resource, List<Gasolinera> objects) {
             super(context, resource, objects);
             this.context = context;
             this.listaGasolineras = objects;
+            listaDistancias= Arrays.asList(0.023,0.12,0.223,0.3,0.345,0.9,2.4,50.2,80.65,94.678,100.765,200.0,700.0,1000.0,2670.0,34567.0,123356.0,2343498.0,16478426.0,742797564.0,234234234.0);
+
+
         }
 
         // Llamado al renderizar la lista
@@ -288,49 +293,57 @@ public class MainActivity extends AppCompatActivity {
             View view = inflater.inflate(R.layout.item_gasolinera, null);
 
             // Asocia las variables de dicho layout
-            ImageView logo = view.findViewById(R.id.imageViewLogo);
-            TextView rotulo = view.findViewById(R.id.textViewRotulo);
-            TextView direccion = view.findViewById(R.id.textViewDireccion);
-            TextView gasoleoA = view.findViewById(R.id.textViewGasoleoA);
-            TextView gasolina95 = view.findViewById(R.id.textViewGasolina95);
+
+            TextView direccion = view.findViewById(R.id.direccionId);
+            TextView gasoleoB = view.findViewById(R.id.precioDieselId);
+            TextView distancia = view.findViewById(R.id.distanciaHastaGasolineraId);
 
             // Y carga los datos del item
-            rotulo.setText(gasolinera.getRotulo());
+
             direccion.setText(gasolinera.getDireccion());
-            gasoleoA.setText(" " + gasolinera.getGasoleoA() + getResources().getString(R.string.moneda));
-            gasolina95.setText(" " + gasolinera.getGasolina95() + getResources().getString(R.string.moneda));
+            if(gasolinera.getGasoleoB()==1000.0){
+                gasoleoB.setText(" N/D");
+            }else {
+                gasoleoB.setText(" " + gasolinera.getGasoleoB() +" "+ getResources().getString(R.string.moneda));
+            }
+            if(position%listaDistancias.size()>=0 && position%listaDistancias.size()<=10 ){
+                distancia.setText(String.valueOf(listaDistancias.get(position%listaDistancias.size()))+" km");
+            }else{
+                distancia.setText(String.valueOf(Integer.valueOf(listaDistancias.get(position%listaDistancias.size()).intValue()))+" m");
+            }
+
 
             // carga icono
-            {
-                String rotuleImageID = gasolinera.getRotulo().toLowerCase();
+            //{
+            //    String rotuleImageID = gasolinera.getRotulo().toLowerCase();
 
                 // Tengo que protegerme ante el caso en el que el rotulo solo tiene digitos.
                 // En ese caso getIdentifier devuelve esos digitos en vez de 0.
-                int imageID = context.getResources().getIdentifier(rotuleImageID,
-                        "drawable", context.getPackageName());
+            //    int imageID = context.getResources().getIdentifier(rotuleImageID,
+              //          "drawable", context.getPackageName());
 
-                if (imageID == 0 || TextUtils.isDigitsOnly(rotuleImageID)) {
-                    imageID = context.getResources().getIdentifier(getResources().getString(R.string.pordefecto),
-                            "drawable", context.getPackageName());
-                }
-                logo.setImageResource(imageID);
-            }
+                //if (imageID == 0 || TextUtils.isDigitsOnly(rotuleImageID)) {
+                  //  imageID = context.getResources().getIdentifier(getResources().getString(R.string.pordefecto),
+                    //        "drawable", context.getPackageName());
+                //}
+                //logo.setImageResource(imageID);
+            //}
 
 
             // Si las dimensiones de la pantalla son menores
             // reducimos el texto de las etiquetas para que se vea correctamente
             DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
             if (displayMetrics.widthPixels < 720) {
-                TextView tv = view.findViewById(R.id.textViewGasoleoALabel);
-                RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams) tv.getLayoutParams());
-                params.setMargins(15, 0, 0, 0);
-                tv.setTextSize(11);
+                //TextView tv = view.findViewById(R.id.textViewGasoleoALabel);
+                //RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams) tv.getLayoutParams());
+                //params.setMargins(15, 0, 0, 0);
+                //tv.setTextSize(11);
                 TextView tmp;
-                tmp = view.findViewById(R.id.textViewGasolina95Label);
+                tmp = view.findViewById(R.id.direccionId);
                 tmp.setTextSize(11);
-                tmp = view.findViewById(R.id.textViewGasoleoA);
+                tmp = view.findViewById(R.id.precioDieselId);
                 tmp.setTextSize(11);
-                tmp = view.findViewById(R.id.textViewGasolina95);
+                tmp = view.findViewById(R.id.distanciaHastaGasolineraId);
                 tmp.setTextSize(11);
             }
 
