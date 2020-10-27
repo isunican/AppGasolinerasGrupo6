@@ -12,25 +12,29 @@ import android.os.Parcelable;
 ------------------------------------------------------------------
 */
 
-public class Gasolinera implements Parcelable {
+public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     private int ideess;
     private String localidad;
     private String provincia;
     private String direccion;
     private double gasoleoA;
+    private double gasoleoB;
     private double gasolina95;
     private String rotulo;
+
+
 
 
     /**
      * Constructor, getters y setters
      */
-    public Gasolinera (int ideess, String localidad, String provincia, String direccion, double gasoleoA, double gasolina95, String rotulo){
+    public Gasolinera (int ideess, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo){
         this.ideess = ideess;
         this.localidad = localidad;
         this.provincia = provincia;
         this.direccion = direccion;
         this.gasoleoA = gasoleoA;
+        this.gasoleoB=gasoleoB;
         this.gasolina95 = gasolina95;
         this.rotulo = rotulo;
     }
@@ -50,6 +54,14 @@ public class Gasolinera implements Parcelable {
     public double getGasoleoA() { return gasoleoA; }
     public void setGasoleoA(double gasoleoA) { this.gasoleoA = gasoleoA; }
 
+    //He tenido que meter el gasoleo B ya que es el más básico y se pedía en la funcionalidad
+    public double getGasoleoB() {
+        return gasoleoB;
+    }
+
+    public void setGasoleoB(double gasoleoB) {
+        this.gasoleoB = gasoleoB;
+    }
     public String getRotulo() { return rotulo; }
     public void setRotulo(String rotulo) { this.rotulo = rotulo; }
 
@@ -74,6 +86,7 @@ public class Gasolinera implements Parcelable {
                 getDireccion() + "\n" +
                 getLocalidad() + "\n" +
                 "Precio diesel: " + getGasoleoA() + " " + "\n" +
+                        "Precio diesel mas barato: " + getGasoleoB() + " " + "\n" +
                 "Precio gasolina 95: " + getGasolina95() + " " + "\n\n";
 
         return textoGasolineras;
@@ -97,6 +110,7 @@ public class Gasolinera implements Parcelable {
         provincia = in.readString();
         direccion = in.readString();
         gasoleoA = in.readDouble();
+        gasoleoB=in.readDouble();
         gasolina95 = in.readDouble();
         rotulo = in.readString();
     }
@@ -113,6 +127,7 @@ public class Gasolinera implements Parcelable {
         dest.writeString(provincia);
         dest.writeString(direccion);
         dest.writeDouble(gasoleoA);
+        dest.writeDouble(gasoleoB);
         dest.writeDouble(gasolina95);
         dest.writeString(rotulo);
     }
@@ -129,4 +144,16 @@ public class Gasolinera implements Parcelable {
             return new Gasolinera[size];
         }
     };
+
+    @Override
+    public int compareTo(Gasolinera o) {
+        if(gasoleoB==o.gasoleoB){
+            return 0;
+        }else if(gasoleoB<o.gasoleoB){
+            return -1;
+        }else{
+            return 1;
+        }
+
+    }
 }

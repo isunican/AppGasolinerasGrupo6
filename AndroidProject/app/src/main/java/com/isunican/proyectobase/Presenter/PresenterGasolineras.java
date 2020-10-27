@@ -8,6 +8,7 @@ import com.isunican.proyectobase.Utilities.RemoteFetch;
 
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /*
@@ -73,11 +74,12 @@ public class PresenterGasolineras {
      * @return boolean
      */
     public boolean cargaDatosDummy(){
-        this.gasolineras.add(new Gasolinera(1000,SANTANDER,SANTANDER, "Av Valdecilla", 1.299,1.359,"AVIA"));
-        this.gasolineras.add(new Gasolinera(1053,SANTANDER,SANTANDER, "Plaza Matias Montero", 1.270,1.349,"CAMPSA"));
-        this.gasolineras.add(new Gasolinera(420,SANTANDER,SANTANDER, "Area Arrabal Puerto de Raos", 1.249,1.279,"E.E.S.S. MAS, S.L."));
-        this.gasolineras.add(new Gasolinera(9564,SANTANDER,SANTANDER, "Av Parayas", 1.189,1.269,"EASYGAS"));
-        this.gasolineras.add(new Gasolinera(1025,SANTANDER,SANTANDER, "Calle el Empalme", 1.259,1.319,"CARREFOUR"));
+        //int ideess, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo
+        this.gasolineras.add(new Gasolinera(1000,SANTANDER,SANTANDER, "Av Valdecilla", 1.299,1.359,1.359,"AVIA"));
+        this.gasolineras.add(new Gasolinera(1053,SANTANDER,SANTANDER, "Plaza Matias Montero", 1.270,1.359,1.349,"CAMPSA"));
+        this.gasolineras.add(new Gasolinera(420,SANTANDER,SANTANDER, "Area Arrabal Puerto de Raos", 1.249,1.359,1.279,"E.E.S.S. MAS, S.L."));
+        this.gasolineras.add(new Gasolinera(9564,SANTANDER,SANTANDER, "Av Parayas", 1.189,1.359,1.269,"EASYGAS"));
+        this.gasolineras.add(new Gasolinera(1025,SANTANDER,SANTANDER, "Calle el Empalme", 1.259,1.359,1.319,"CARREFOUR"));
         return true;
     }
 
@@ -112,6 +114,7 @@ public class PresenterGasolineras {
         try {
             BufferedInputStream buffer = RemoteFetch.cargaBufferDesdeURL(direccion);
             gasolineras = ParserJSONGasolineras.parseaArrayGasolineras(buffer);
+            Collections.sort(gasolineras);
             Log.d("ENTRA", "Obten gasolineras:" + gasolineras.size());
             return true;
         } catch (Exception e) {
