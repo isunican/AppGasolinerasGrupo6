@@ -1,24 +1,23 @@
-package com.isunican.proyectobase.Views;
+package com.isunican.proyectobase.views;
 
-import com.isunican.proyectobase.Presenter.*;
-import com.isunican.proyectobase.Model.*;
+import com.isunican.proyectobase.presenter.*;
+import com.isunican.proyectobase.model.*;
 import com.isunican.proyectobase.R;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.util.Log;
-import android.view.Gravity;
+
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +25,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -198,14 +196,14 @@ public class MainActivity extends AppCompatActivity {
             Toast toast;
 
             // Si el progressDialog estaba activado, lo oculta
-            progressBar.setVisibility(View.GONE);     // To Hide ProgressBar
+            progressBar.setVisibility(View.GONE);
 
             mSwipeRefreshLayout.setRefreshing(false);
-
+            
             // Si se ha obtenido resultado en la tarea en segundo plano
-            if (res) {
+            if (Boolean.TRUE.equals(res)) {
                 // Definimos el array adapter
-                adapter = new GasolineraArrayAdapter(activity, 0, (ArrayList<Gasolinera>) presenterGasolineras.getGasolineras());
+                adapter = new GasolineraArrayAdapter(activity, 0, presenterGasolineras.getGasolineras());
 
                 // Obtenemos la vista de la lista
                 listViewGasolineras = findViewById(R.id.listViewGasolineras);
@@ -222,6 +220,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             } else {
                 // error en la obtencion de datos desde el servidor
+                /*
+                Se crea un dialogo de error, este indica que no hay acceso a internet y que se debe de cerrar la aplicación. Esto sucede al seleccionar el botón aceptar del mismo.
+                */
+                AlertDialog.Builder builder=new AlertDialog.Builder(activity);
+                builder.setTitle(R.string.tituloDialogoDeError);
+                builder.setMessage(R.string.mensajeDialogoDeError);
+                builder.setPositiveButton(R.string.botonDeAceptarDialogoError, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finishAffinity();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+
                 toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.datos_no_obtenidos), Toast.LENGTH_LONG);
             }
 
@@ -238,21 +251,21 @@ public class MainActivity extends AppCompatActivity {
              * Para poder pasar un objeto Gasolinera mediante una intent con putExtra / getExtra,
              * hemos tenido que hacer que el objeto Gasolinera implemente la interfaz Parcelable
              */
-            listViewGasolineras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+            if(listViewGasolineras!=null) {
+                listViewGasolineras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    public void onItemClick(AdapterView<?> a, View v, int position, long id) {
 
-                    /* Obtengo el elemento directamente de su posicion,
-                     * ya que es la misma que ocupa en la lista
-                     * Alternativa 1: a partir de posicion obtener algun atributo int opcionSeleccionada = ((Gasolinera) a.getItemAtPosition(position)).getIdeess();
-                     * Alternativa 2: a partir de la vista obtener algun atributo String opcionSeleccionada = ((TextView)v.findViewById(R.id.textViewRotulo)).getText().toString();
-                     */
-                    Intent myIntent = new Intent(MainActivity.this, DetailActivity.class);
-                    myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera),
-                            presenterGasolineras.getGasolineras().get(position));
-                    MainActivity.this.startActivity(myIntent);
+                        /* Obtengo el elemento directamente de su posicion,
+                         * ya que es la misma que ocupa en la lista
+                         */
+                        Intent myIntent = new Intent(MainActivity.this, DetailActivity.class);
+                        myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera),
+                                presenterGasolineras.getGasolineras().get(position));
+                        MainActivity.this.startActivity(myIntent);
 
-                }
-            });
+                    }
+                });
+            }
         }
     }
 
@@ -269,14 +282,14 @@ public class MainActivity extends AppCompatActivity {
 
         private Context context;
         private List<Gasolinera> listaGasolineras;
-        private List<Double> listaDistancias;
+        private List<Double> listaDistancias; //Lista para introducir en cada item del ListView una distancia variable manualmente, es decir, no es calculada.
 
         // Constructor
         public GasolineraArrayAdapter(Context context, int resource, List<Gasolinera> objects) {
             super(context, resource, objects);
             this.context = context;
             this.listaGasolineras = objects;
-            listaDistancias= Arrays.asList(0.023,0.12,0.223,0.3,0.345,0.9,2.4,50.2,80.65,94.678,100.765,200.0,700.0,1000.0,2670.0,34567.0,123356.0,2343498.0,16478426.0,742797564.0,234234234.0);
+            listaDistancias= Arrays.asList(0.023,0.12,0.223,0.3,0.345,0.9,2.4,50.2,80.65,94.678,100.765,200.0,700.0,1000.0,2670.0,34567.0,123356.0,2343498.0,16478426.0,742797564.0,234234234.0); //Le doy valores a la lista.
 
 
         }
@@ -289,11 +302,14 @@ public class MainActivity extends AppCompatActivity {
             Gasolinera gasolinera = listaGasolineras.get(position);
 
             // Indica el layout a usar en cada elemento de la lista
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.item_gasolinera, null);
 
             // Asocia las variables de dicho layout
 
+            /*
+            He cambiado las elementos de cada item de acuerdo a lo que exige la funcionalidad Listar gasolineras por precio
+             */
             TextView direccion = view.findViewById(R.id.direccionId);
             TextView gasoleoB = view.findViewById(R.id.precioDieselId);
             TextView distancia = view.findViewById(R.id.distanciaHastaGasolineraId);
@@ -301,43 +317,24 @@ public class MainActivity extends AppCompatActivity {
             // Y carga los datos del item
 
             direccion.setText(gasolinera.getDireccion());
-            if(gasolinera.getGasoleoB()==1000.0){
-                gasoleoB.setText(" N/D");
+            if(gasolinera.getGasoleoB()==1000.0){ //Le cambie el valor de -1.0 a uno muy alto para que en la ordenacion estuvieran al final de la ListView. Este valor indica que no disponen del producto en la gasolinera.
+                gasoleoB.setText(" N/D"); //Introduzco esta salida que significa no disponible.
             }else {
-                gasoleoB.setText(" " + gasolinera.getGasoleoB() +" "+ getResources().getString(R.string.moneda));
+                gasoleoB.setText(" " + gasolinera.getGasoleoB() +" "+ getResources().getString(R.string.moneda)); // Si el valor es normal por estar disponible se le asigna la unidad del €
             }
-            if(position%listaDistancias.size()>=0 && position%listaDistancias.size()<=10 ){
+            if(position%listaDistancias.size()>=0 && position%listaDistancias.size()<=10 ){ //Los primeros valores son pequeños y decimales por lo que le asigno la unidad del km
                 distancia.setText(String.valueOf(listaDistancias.get(position%listaDistancias.size()))+" km");
             }else{
-                distancia.setText(String.valueOf(Integer.valueOf(listaDistancias.get(position%listaDistancias.size()).intValue()))+" m");
-            }
+                distancia.setText(String.valueOf(Integer.valueOf(listaDistancias.get(position%listaDistancias.size()).intValue()))+" m"); //En la lista de Double a partir de cierta posicion los valores son mas grandes y les
+            }                                                                                                                             //asigno el m, además casteo a enteros los numeros decimales, ya que al ser metros no
+                                                                                                                                          //necesario el decimal dado el contexto.
 
-
-            // carga icono
-            //{
-            //    String rotuleImageID = gasolinera.getRotulo().toLowerCase();
-
-                // Tengo que protegerme ante el caso en el que el rotulo solo tiene digitos.
-                // En ese caso getIdentifier devuelve esos digitos en vez de 0.
-            //    int imageID = context.getResources().getIdentifier(rotuleImageID,
-              //          "drawable", context.getPackageName());
-
-                //if (imageID == 0 || TextUtils.isDigitsOnly(rotuleImageID)) {
-                  //  imageID = context.getResources().getIdentifier(getResources().getString(R.string.pordefecto),
-                    //        "drawable", context.getPackageName());
-                //}
-                //logo.setImageResource(imageID);
-            //}
 
 
             // Si las dimensiones de la pantalla son menores
             // reducimos el texto de las etiquetas para que se vea correctamente
-            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics(); //He modificado el ajuste de tamanho para los TextView que necesito
             if (displayMetrics.widthPixels < 720) {
-                //TextView tv = view.findViewById(R.id.textViewGasoleoALabel);
-                //RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams) tv.getLayoutParams());
-                //params.setMargins(15, 0, 0, 0);
-                //tv.setTextSize(11);
                 TextView tmp;
                 tmp = view.findViewById(R.id.direccionId);
                 tmp.setTextSize(11);

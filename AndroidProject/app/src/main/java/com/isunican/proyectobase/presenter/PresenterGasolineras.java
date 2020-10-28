@@ -1,10 +1,10 @@
-package com.isunican.proyectobase.Presenter;
+package com.isunican.proyectobase.presenter;
 
 import android.util.Log;
 
-import com.isunican.proyectobase.Model.*;
-import com.isunican.proyectobase.Utilities.ParserJSONGasolineras;
-import com.isunican.proyectobase.Utilities.RemoteFetch;
+import com.isunican.proyectobase.model.*;
+import com.isunican.proyectobase.utilities.ParserJSONGasolineras;
+import com.isunican.proyectobase.utilities.RemoteFetch;
 
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
@@ -46,7 +46,16 @@ public class PresenterGasolineras {
         this.gasolineras = l;
     }
 
-
+    /**
+     * Metodo privado que se utiliza para ordenar por precio el diesel más barato.
+     * Para esto se utiliza la clase Collections con su metodo sort, cuya eficiencia
+     * temporal es O(n log n). Este metodo ordena teniendo en cuenta una clave natural,
+     * como digo el gasoleo B, y la clase sobre la cual se van a hacer las comparaciones,
+     * Gasolinera, debe implementar la interfaz Comparable que pide implementar compareTo().
+     */
+    private void ordenarGasolinerasCargadasPorPrecioDeGasoleoB(){
+        Collections.sort(gasolineras);
+    }
     /**
      * cargaDatosGasolineras
      *
@@ -110,11 +119,11 @@ public class PresenterGasolineras {
      * @param String Dirección URL del JSON con los datos
      * @return boolean Devuelve true si se han podido cargar los datos
      */
-    public boolean cargaDatosRemotos(String direccion){
+    public boolean cargaDatosRemotos(String direccion){ //Aqui se captura la posible excepcion que de el RemoteFetch, voy a cambiar la captura de una excepcion generica por la que puede dar
         try {
             BufferedInputStream buffer = RemoteFetch.cargaBufferDesdeURL(direccion);
             gasolineras = ParserJSONGasolineras.parseaArrayGasolineras(buffer);
-            Collections.sort(gasolineras);
+            ordenarGasolinerasCargadasPorPrecioDeGasoleoB(); // Llamo al metodo privado para ordenar segun la clave natural gasoleoB.
             Log.d("ENTRA", "Obten gasolineras:" + gasolineras.size());
             return true;
         } catch (Exception e) {

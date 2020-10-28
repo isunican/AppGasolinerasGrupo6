@@ -1,6 +1,6 @@
-package com.isunican.proyectobase.Utilities;
+package com.isunican.proyectobase.utilities;
 
-import com.isunican.proyectobase.Model.*;
+import com.isunican.proyectobase.model.*;
 
 import android.util.JsonReader;
 import android.util.JsonToken;
@@ -37,11 +37,10 @@ public class ParserJSONGasolineras {
      */
     public static List<Gasolinera> parseaArrayGasolineras (InputStream in) throws IOException {
         JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
-        try {
-            return readArrayGasolineras(reader);
-        } finally {
-            reader.close();
-        }
+
+            List<Gasolinera> listaGasolinerasParseada= readArrayGasolineras(reader);
+            reader.close(); //He cambiado el try-finally porque no capturaban una posible excepcion, era solo para que despues del return se cerrara el reader, yo he hecho lo mismo de forma correcta.
+            return listaGasolinerasParseada; //La excepcion se sigue propagando
     }
 
     /**
@@ -60,7 +59,7 @@ public class ParserJSONGasolineras {
      * @return List Lista de objetos Gasolinera con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
-    public static List readArrayGasolineras (JsonReader reader) throws IOException {
+    public static List readArrayGasolineras (JsonReader reader) throws IOException { //La excepcion se propaga
         List<Gasolinera> listGasolineras = new ArrayList<>();
 
         reader.beginObject();
@@ -97,7 +96,7 @@ public class ParserJSONGasolineras {
      * @return Gasolinera Objetos Gasolinera con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
-    public static Gasolinera readGasolinera (JsonReader reader) throws IOException {
+    public static Gasolinera readGasolinera (JsonReader reader) throws IOException { //La excepcion se propaga
         reader.beginObject();
         String rotulo = "";
         String localidad = "";
@@ -105,7 +104,7 @@ public class ParserJSONGasolineras {
         String direccion = "";
         int id = -1;
         double gasoleoA = 0.0;
-        double gasoleoB = 0.0;
+        double gasoleoB = 0.0; //Incluyo el gasoleoB
         double sinplomo95 = 0.0;
 
         while(reader.hasNext()){
@@ -121,10 +120,10 @@ public class ParserJSONGasolineras {
                 id = reader.nextInt();
             }else if(name.equals("Precio Gasoleo A") && reader.peek() != JsonToken.NULL) {
                 gasoleoA = parseDouble(reader.nextString().replace(",", "."));
-            }else if(name.equals("Precio Gasoleo B") && reader.peek() != JsonToken.NULL) {
+            }else if(name.equals("Precio Gasoleo B") && reader.peek() != JsonToken.NULL) { //He incluido la captura del gasoleo B ya que me hacia falta para listar las gasolineras por su valor.
                 gasoleoB = parseDouble(reader.nextString().replace(",", "."));
                 if(gasoleoB==-1.0){
-                    gasoleoB=1000.0;
+                    gasoleoB=1000.0; //Cambio su valor a uno alto ya que al ordenar las gasolineras por el precio de menor a mayor, aquellas que no disponen del producto deben ir las ultimas.
                 }
             }else if(name.equals("Precio Gasolina 95 E5") && reader.peek() != JsonToken.NULL) {
                 sinplomo95 = parseDouble(reader.nextString().replace(",", "."));
@@ -136,7 +135,7 @@ public class ParserJSONGasolineras {
 
         }
         reader.endObject();
-        return new Gasolinera(id,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo);
+        return new Gasolinera(id,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo); //Incluyo el gasoleoB
     }
 
     private static double parseDouble(String str) {

@@ -1,7 +1,9 @@
-package com.isunican.proyectobase.Model;
+package com.isunican.proyectobase.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import java.util.Objects;
 
 
 /*
@@ -18,7 +20,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     private String provincia;
     private String direccion;
     private double gasoleoA;
-    private double gasoleoB;
+    private double gasoleoB; //Elemento anhadido para poder listar y mostrar con su valor.
     private double gasolina95;
     private String rotulo;
 
@@ -34,7 +36,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         this.provincia = provincia;
         this.direccion = direccion;
         this.gasoleoA = gasoleoA;
-        this.gasoleoB=gasoleoB;
+        this.gasoleoB=gasoleoB; //Elemento anhadido para poder listar y mostrar con su valor.
         this.gasolina95 = gasolina95;
         this.rotulo = rotulo;
     }
@@ -54,7 +56,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     public double getGasoleoA() { return gasoleoA; }
     public void setGasoleoA(double gasoleoA) { this.gasoleoA = gasoleoA; }
 
-    //He tenido que meter el gasoleo B ya que es el más básico y se pedía en la funcionalidad
+    //He tenido que meter el gasoleo B ya que es el más básico y se pedía en la funcionalidad.
     public double getGasoleoB() {
         return gasoleoB;
     }
@@ -110,7 +112,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         provincia = in.readString();
         direccion = in.readString();
         gasoleoA = in.readDouble();
-        gasoleoB=in.readDouble();
+        gasoleoB=in.readDouble(); //Elemento anhadido para poder listar y mostrar con su valor.
         gasolina95 = in.readDouble();
         rotulo = in.readString();
     }
@@ -127,7 +129,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         dest.writeString(provincia);
         dest.writeString(direccion);
         dest.writeDouble(gasoleoA);
-        dest.writeDouble(gasoleoB);
+        dest.writeDouble(gasoleoB); //Elemento anhadido para poder listar y mostrar con su valor.
         dest.writeDouble(gasolina95);
         dest.writeString(rotulo);
     }
@@ -145,6 +147,13 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         }
     };
 
+    /**
+     * Metodo que compara un atributo del objeto pasado como parametro con otro de la misma clase
+     * para especificar un orden entre ambos, siendo la salida -1 this es < que o; siendo 0 ambos son
+     * iguales y siendo 1 this es > que o. Sirve para ordenar TDAs.
+     * @param o
+     * @return int
+     */
     @Override
     public int compareTo(Gasolinera o) {
         if(gasoleoB==o.gasoleoB){
@@ -155,5 +164,25 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
             return 1;
         }
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gasolinera that = (Gasolinera) o;
+        return ideess == that.ideess &&
+                Double.compare(that.gasoleoA, gasoleoA) == 0 &&
+                Double.compare(that.gasoleoB, gasoleoB) == 0 &&
+                Double.compare(that.gasolina95, gasolina95) == 0 &&
+                Objects.equals(localidad, that.localidad) &&
+                Objects.equals(provincia, that.provincia) &&
+                Objects.equals(direccion, that.direccion) &&
+                Objects.equals(rotulo, that.rotulo);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ideess, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
     }
 }

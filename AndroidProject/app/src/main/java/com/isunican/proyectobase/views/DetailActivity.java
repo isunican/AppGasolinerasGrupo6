@@ -1,7 +1,7 @@
-package com.isunican.proyectobase.Views;
+package com.isunican.proyectobase.views;
 
 import com.isunican.proyectobase.R;
-import com.isunican.proyectobase.Model.*;
+import com.isunican.proyectobase.model.*;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -68,7 +68,7 @@ public class DetailActivity extends AppCompatActivity {
         precioGasolina95.setText(String.valueOf(g.getGasolina95()));
 
         // carga icono
-        {
+
             String rotuleImageID = g.getRotulo().toLowerCase();
 
             // Tengo que protegerme ante el caso en el que el rotulo solo tiene digitos.
@@ -81,6 +81,6 @@ public class DetailActivity extends AppCompatActivity {
                         "drawable", context.getPackageName());
             }
             marcaImagen.setImageResource(imageID);
-        }
+
     }
 }
