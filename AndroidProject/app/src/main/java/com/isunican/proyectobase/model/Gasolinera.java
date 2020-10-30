@@ -2,7 +2,6 @@ package com.isunican.proyectobase.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.util.Objects;
 
 
@@ -150,12 +149,14 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     /**
      * Metodo que compara un atributo del objeto pasado como parametro con otro de la misma clase
      * para especificar un orden entre ambos, siendo la salida -1 this es < que o; siendo 0 ambos son
-     * iguales y siendo 1 this es > que o. Sirve para ordenar TDAs.
+     * iguales y siendo 1 this es > que o. Sirve para ordenar TDAs. Puede lanzar NullPointerException
+     * y ClassCastException.
      * @param o
      * @return int
      */
     @Override
     public int compareTo(Gasolinera o) {
+
         if(gasoleoB==o.gasoleoB){
             return 0;
         }else if(gasoleoB<o.gasoleoB){
@@ -165,6 +166,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         }
 
     }
+
 
     @Override
     public boolean equals(Object o) {
