@@ -80,19 +80,18 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
      * @return String
      */
     @Override
-    public String toString(){
-        String textoGasolineras = "";
-        textoGasolineras +=
-                getRotulo() + "\n"+
-                getDireccion() + "\n" +
-                getLocalidad() + "\n" +
-                "Precio diesel: " + getGasoleoA() + " " + "\n" +
-                        "Precio diesel mas barato: " + getGasoleoB() + " " + "\n" +
-                "Precio gasolina 95: " + getGasolina95() + " " + "\n\n";
-
-        return textoGasolineras;
+    public String toString() {
+        return "Gasolinera{" +
+                "ideess=" + ideess +
+                ", localidad='" + localidad + '\'' +
+                ", provincia='" + provincia + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", gasoleoA=" + gasoleoA +
+                ", gasoleoB=" + gasoleoB +
+                ", gasolina95=" + gasolina95 +
+                ", rotulo='" + rotulo + '\'' +
+                '}';
     }
-
 
     /**
      * interfaz Parcelable
