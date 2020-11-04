@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
             progressBar.setVisibility(View.GONE);
 
             mSwipeRefreshLayout.setRefreshing(false);
-            
+
             // Si se ha obtenido resultado en la tarea en segundo plano
             if (Boolean.TRUE.equals(res)) {
                 // Definimos el array adapter
