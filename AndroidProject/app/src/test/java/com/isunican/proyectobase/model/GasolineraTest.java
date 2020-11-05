@@ -6,11 +6,18 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+/**
+ * Clase de prueba que verifica el correcto funcionamiento de la clase Gasolinera, para ello se implementan unos casos de prueba previamente definidos para los metodos a probar y se ejecutan en busca de errores.
+ */
 public class GasolineraTest {
 
     Gasolinera gasolineraBase=new Gasolinera(1000,"Santander","Santander", "Av Valdecilla", 1.299,1.359,1.359,"AVIA");
     Gasolinera gasolineraAComparar;
 
+
+    /*
+    Test que compara un elemento con otro de su misma clase en base a un atributo.
+     */
     @Test
     public void compareToTest(){
 

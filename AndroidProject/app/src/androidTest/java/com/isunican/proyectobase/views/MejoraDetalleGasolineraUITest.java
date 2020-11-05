@@ -4,7 +4,6 @@ package com.isunican.proyectobase.views;
 import androidx.test.rule.ActivityTestRule;
 import com.isunican.proyectobase.R;
 import com.isunican.proyectobase.presenter.PresenterGasolineras;
-import com.isunican.proyectobase.views.MainActivity;
 import org.junit.Rule;
 import org.junit.Test;
 import static androidx.test.espresso.Espresso.onData;

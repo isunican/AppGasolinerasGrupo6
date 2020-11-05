@@ -13,6 +13,10 @@ import java.io.StringReader;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+
+/**
+ * Clase de prueba que verifica el correcto funcionamiento de la clase ParserJSONGasolineras, para ello se implementan unos casos de prueba previamente definidos para los metodos a probar y se ejecutan en busca de errores.
+ */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = Build.VERSION_CODES.O_MR1)
 public class ParserJSONGasolinerasTest {
@@ -22,10 +26,13 @@ public class ParserJSONGasolinerasTest {
     private String datos;
     private Gasolinera gasolinera;
 
+    /*
+    Metodo de prueba que verifica que se obtiene correctamente de parte de un JSON un objeto de la clase gasolinera. Se pueden dar los siguientes casos de prueba.
+     */
     @Test
     public void readGasolineraTest(){
 
-        //UPJG.1a Se crea un JsonReader al que se le pasa un string que simula un JSON correcto para una gasolinera .
+        //UPJG.1a Se crea un JsonReader al que se le pasa un String que simula un JSON correcto para una gasolinera .
 
         try {
 
@@ -70,7 +77,7 @@ public class ParserJSONGasolinerasTest {
 
         }
 
-        //UPJG.1b Se crea un JsonReader al que se le pasa un string que simula un JSON incorrecto para una gasolinera.
+        //UPJG.1b Se crea un JsonReader al que se le pasa un String que simula un JSON incorrecto para una gasolinera.
 
         try {
             datos="{\n" +

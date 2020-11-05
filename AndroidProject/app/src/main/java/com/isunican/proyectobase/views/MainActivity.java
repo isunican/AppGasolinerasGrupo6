@@ -159,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
          *
          * Metodo ejecutado de forma previa a la ejecucion de la tarea definida en el metodo doInBackground()
          * Muestra un diálogo de progreso
+         * @deprecated este método esta obsoleto y pronto no podrá ser usado
          */
+        @Deprecated
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);  //To show ProgressBar
@@ -188,9 +190,10 @@ public class MainActivity extends AppCompatActivity {
          * Define el manejo de la selección de los elementos de la lista,
          * lanzando con una intent una actividad de detalle
          * a la que pasamos un objeto Gasolinera
-         *
+         * @deprecated este método esta obsoleto y pronto no podrá ser usado
          * @param res
          */
+        @Deprecated
         @Override
         protected void onPostExecute(Boolean res) {
             Toast toast;

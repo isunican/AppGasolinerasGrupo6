@@ -5,7 +5,6 @@ import android.util.Log;
 import com.isunican.proyectobase.model.*;
 import com.isunican.proyectobase.utilities.ParserJSONGasolineras;
 import com.isunican.proyectobase.utilities.RemoteFetch;
-
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -119,7 +118,7 @@ public class PresenterGasolineras {
      * @param String Dirección URL del JSON con los datos
      * @return boolean Devuelve true si se han podido cargar los datos
      */
-    public boolean cargaDatosRemotos(String direccion){ //Aqui se captura la posible excepcion que de el RemoteFetch, voy a cambiar la captura de una excepcion generica por la que puede dar
+    public boolean cargaDatosRemotos(String direccion){ //Aqui se captura la posible excepcion que de el RemoteFetch, voy a cambiar la captura de una excepcion generica
         try {
             BufferedInputStream buffer = RemoteFetch.cargaBufferDesdeURL(direccion);
             gasolineras = ParserJSONGasolineras.parseaArrayGasolineras(buffer);

@@ -1,28 +1,22 @@
 package com.isunican.proyectobase.views;
 
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.rule.ActivityTestRule;
-
-
 import com.isunican.proyectobase.presenter.PresenterGasolineras;
-
 import org.junit.Rule;
 import org.junit.Test;
 import com.isunican.proyectobase.R;
-
 import java.util.Arrays;
 import java.util.List;
-
 import static androidx.test.espresso.Espresso.onData;
-import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
-import static androidx.test.espresso.matcher.RootMatchers.isDialog;
-import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.anything;
 
+
+/**
+ * Clase de prueba que verifica el correcto funcionamiento del escenario Listar gasolineras por precio.
+ */
 public class ListarGasolinerasPorPrecioUITest {
 
     PresenterGasolineras presenter;
@@ -68,11 +62,8 @@ public class ListarGasolinerasPorPrecioUITest {
         }
 
 
-        //Caso ILGPP.c se comprueba que no se ha podido cargar informacion de la API por no disponer de internet.
+        //Caso ILGPP.c se comprueba que no se ha podido cargar informacion de la API por no disponer de internet. No se puede probar con Espresso, antes si se podia simular la falta de conexion a internet, ahora no.
 
-
-        
-        //onView(withText("Aceptar")).inRoot(isDialog()).check(matches(isDisplayed())).perform(click());
 
     }
 
