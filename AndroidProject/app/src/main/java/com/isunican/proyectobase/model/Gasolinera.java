@@ -166,7 +166,12 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     }
 
-
+    /**
+     * Metodo sobreescrito para realizar correctamente comparaciones entre objetos gasolinera, necesario para pasar los criterios de calidad de Sonar ya que el metodo
+     * compareTo() lo requeria.
+     * @param o
+     * @return
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -182,6 +187,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
                 Objects.equals(rotulo, that.rotulo);
     }
 
+    /**
+     * Metodo que genera un codigo único para identificar de forma univoca a cada gasolinera.
+     * @return
+     */
     @Override
     public int hashCode() {
         return Objects.hash(ideess, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
