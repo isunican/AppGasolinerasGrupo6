@@ -59,7 +59,7 @@ public class ParserJSONGasolineras {
      * @return List Lista de objetos Gasolinera con los datos obtenidas tras parsear el JSON
      * @throws IOException
      */
-    public static List readArrayGasolineras (JsonReader reader) throws IOException { //La excepcion se propaga
+    public static List<Gasolinera> readArrayGasolineras (JsonReader reader) throws IOException { //La excepcion se propaga
         List<Gasolinera> listGasolineras = new ArrayList<>();
 
         reader.beginObject();
