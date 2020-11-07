@@ -5,6 +5,8 @@ import com.isunican.proyectobase.model.*;
 import android.util.JsonReader;
 import android.util.JsonToken;
 import android.util.Log;
+
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.IOException;
@@ -36,7 +38,7 @@ public class ParserJSONGasolineras {
      * @throws IOException
      */
     public static List<Gasolinera> parseaArrayGasolineras (InputStream in) throws IOException {
-        JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
+        JsonReader reader = new JsonReader(new InputStreamReader(in, StandardCharsets.UTF_8));
 
             List<Gasolinera> listaGasolinerasParseada= readArrayGasolineras(reader);
             reader.close(); //He cambiado el try-finally porque no capturaban una posible excepcion, era solo para que despues del return se cerrara el reader, yo he hecho lo mismo de forma correcta.
