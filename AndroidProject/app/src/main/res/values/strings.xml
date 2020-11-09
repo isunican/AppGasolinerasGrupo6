@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Gasolineras</string>
+    <string name="app_name">FullTankSaving</string>
     <string name="obteniendo">Obteniendo los datos...</string>
     <string name="datos_exito">Datos obtenidos con éxito</string>
     <string name="datos_no_accesibles">Los datos están siendo actualizados en el servidor, inténtelo más tarde</string>
