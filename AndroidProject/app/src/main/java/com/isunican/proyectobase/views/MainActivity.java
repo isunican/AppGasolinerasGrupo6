@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.appcompat.app.ActionBar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Muestra el logo en el actionBar
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setIcon(R.drawable.por_defecto_mod);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher_gasolinera2_foreground);
 
         // Swipe and refresh
         // Al hacer swipe en la lista, lanza la tarea asíncrona de carga de datos
