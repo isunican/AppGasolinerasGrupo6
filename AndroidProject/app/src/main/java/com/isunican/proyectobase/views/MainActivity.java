@@ -4,6 +4,7 @@ import com.isunican.proyectobase.presenter.*;
 import com.isunican.proyectobase.model.*;
 import com.isunican.proyectobase.R;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,8 +12,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -30,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,17 +44,19 @@ import android.widget.Toast;
 */
 public class MainActivity extends AppCompatActivity {
 
-    PresenterGasolineras presenterGasolineras;
+    private PresenterGasolineras presenterGasolineras;
+    private Spinner spinner;
 
     // Vista de lista y adaptador para cargar datos en ella
-    ListView listViewGasolineras;
-    ArrayAdapter<Gasolinera> adapter;
-
+    private ListView listViewGasolineras;
+    private ArrayAdapter<Gasolinera> adapter;
+    private ArrayAdapter<String> stringAdapter;
+    private String[] puntosReferencia={"Mi casa","Trabajo","Pueblo","Gimnasio","Colegio"};
     // Barra de progreso circular para mostar progeso de carga
-    ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     // Swipe and refresh (para recargar la lista con un swipe)
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     /**
      * onCreate
@@ -63,13 +65,52 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param savedInstanceState
      */
+    @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         this.presenterGasolineras = new PresenterGasolineras();
+        this.spinner=(Spinner) findViewById(R.id.spinnerId);
+        this.stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,puntosReferencia);
+        this.stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown);
+        this.spinner.setAdapter(stringAdapter);
+        this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
 
+                    case 0:
+
+                        break;
+
+                    case 1:
+
+                        break;
+
+                    case 2:
+
+
+                        break;
+
+                    case 3:
+
+
+                        break;
+
+                    case 4:
+
+
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
         // Barra de progreso
         // https://materialdoc.com/components/progress/
         progressBar = new ProgressBar(MainActivity.this,null,android.R.attr.progressBarStyleLarge);
@@ -124,9 +165,13 @@ public class MainActivity extends AppCompatActivity {
         else if(item.getItemId()==R.id.itemInfo){
             Intent myIntent = new Intent(MainActivity.this, InfoActivity.class);
             MainActivity.this.startActivity(myIntent);
-            }
+        }else if(item.getItemId()==R.id.itemUrgencia){
+            Intent intentUrgencia=new Intent(MainActivity.this,UrgenciaActivity.class);
+            MainActivity.this.startActivity(intentUrgencia);
+        }
         return true;
     }
+
 
 
     /**

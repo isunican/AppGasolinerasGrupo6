@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_gasolinera2_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".views.UrgenciaActivity"></activity>
         <activity android:name=".views.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,8 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.InfoActivity"></activity>
-        <activity android:name=".views.DetailActivity"></activity>
+        <activity android:name=".views.InfoActivity" />
+        <activity android:name=".views.DetailActivity" />
     </application>
 
 </manifest>
