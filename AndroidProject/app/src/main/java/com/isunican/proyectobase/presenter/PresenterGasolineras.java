@@ -1,6 +1,7 @@
 package com.isunican.proyectobase.presenter;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.isunican.proyectobase.model.*;
 import com.isunican.proyectobase.utilities.ParserJSONGasolineras;
@@ -22,6 +23,7 @@ import java.util.List;
 public class PresenterGasolineras {
 
     private List<Gasolinera> gasolineras;
+    private List<PuntoConocido> puntosPuntoConocidos;
 
     //URLs para obtener datos de las gasolineras
     //https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/help
@@ -35,6 +37,7 @@ public class PresenterGasolineras {
      */
     public PresenterGasolineras(){
         gasolineras = new ArrayList<>();
+        puntosPuntoConocidos=new ArrayList<>();
     }
 
     public List<Gasolinera> getGasolineras(){
@@ -54,6 +57,9 @@ public class PresenterGasolineras {
      */
     private void ordenarGasolinerasCargadasPorPrecioDeGasoleoB(){
         Collections.sort(gasolineras);
+    }
+    public void ordenarGasolinerasPorDistanciaAPuntoConocido(){
+        Collections.sort(gasolineras,new OrdenarGasolinerasPorDistancia());
     }
     /**
      * cargaDatosGasolineras
@@ -83,12 +89,84 @@ public class PresenterGasolineras {
      */
     public boolean cargaDatosDummy(){
         //int ideess, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo
-        this.gasolineras.add(new Gasolinera(1000,SANTANDER,SANTANDER, "Av Valdecilla", 1.299,1.359,1.359,"AVIA"));
-        this.gasolineras.add(new Gasolinera(1053,SANTANDER,SANTANDER, "Plaza Matias Montero", 1.270,1.359,1.349,"CAMPSA"));
-        this.gasolineras.add(new Gasolinera(420,SANTANDER,SANTANDER, "Area Arrabal Puerto de Raos", 1.249,1.359,1.279,"E.E.S.S. MAS, S.L."));
-        this.gasolineras.add(new Gasolinera(9564,SANTANDER,SANTANDER, "Av Parayas", 1.189,1.359,1.269,"EASYGAS"));
-        this.gasolineras.add(new Gasolinera(1025,SANTANDER,SANTANDER, "Calle el Empalme", 1.259,1.359,1.319,"CARREFOUR"));
+        this.gasolineras.add(new Gasolinera(1000,43.459783, -3.826178,SANTANDER,SANTANDER, "Av Valdecilla", 1.299,1.359,1.359,"AVIA"));
+        this.gasolineras.add(new Gasolinera(1053,43.459783, -3.826178,SANTANDER,SANTANDER, "Plaza Matias Montero", 1.270,1.359,1.349,"CAMPSA"));
+        this.gasolineras.add(new Gasolinera(420,43.459783, -3.826178,SANTANDER,SANTANDER, "Area Arrabal Puerto de Raos", 1.249,1.359,1.279,"E.E.S.S. MAS, S.L."));
+        this.gasolineras.add(new Gasolinera(9564,43.459783, -3.826178,SANTANDER,SANTANDER, "Av Parayas", 1.189,1.359,1.269,"EASYGAS"));
+        this.gasolineras.add(new Gasolinera(1025,43.459783, -3.826178,SANTANDER,SANTANDER, "Calle el Empalme", 1.259,1.359,1.319,"CARREFOUR"));
         return true;
+    }
+
+    /**
+     * Carga una lista de puntos conocidos a mano para hacer pruebas de funcionamiento
+     * @return
+     */
+    public boolean cargarCoordenadasDummy(){
+        this.puntosPuntoConocidos.add(new PuntoConocido("Mi casa",43.459783, -3.826178));
+        this.puntosPuntoConocidos.add(new PuntoConocido("Trabajo",43.349337, -4.051923));
+        this.puntosPuntoConocidos.add(new PuntoConocido("Colegio",43.477803, -3.792442));
+        this.puntosPuntoConocidos.add(new PuntoConocido("Pueblo",43.334737, -3.549662));
+        this.puntosPuntoConocidos.add(new PuntoConocido("Gimnasio",43.483004, -3.791504));
+        return true;
+    }
+
+    public List<String> mostrarEtiquetasCoordenadas(){
+        List<String> etiquetasCoordenadas=new ArrayList<>();
+        for(PuntoConocido punto:puntosPuntoConocidos){
+            etiquetasCoordenadas.add(punto.getEtiquetaCoordenada());
+        }
+        return etiquetasCoordenadas;
+    }
+
+    private double calcularDistanciaEntrePuntoYGasolinera(double lon1, double lat1, double lon2, double lat2){
+
+            double radioTerrestre = 6371.0; // km
+
+            lat1 = Math.toRadians(lat1);
+            lon1 = Math.toRadians(lon1);
+            lat2 = Math.toRadians(lat2);
+            lon2 = Math.toRadians(lon2);
+
+            double dlon = (lon2-lon1);
+            double dlat = (lat2-lat1);
+
+            double sinlat = Math.sin(dlat / 2);
+            double sinlon = Math.sin(dlon / 2);
+
+            double a = (sinlat * sinlat) + Math.cos(lat1)*Math.cos(lat2)*(sinlon*sinlon);
+            double c = 2 * Math.asin (Math.min(1.0, Math.sqrt(a)));
+
+            double distanciaEnKilometros =  Math.floor(radioTerrestre * c * 10) / 10; // se trunca a un decimal
+            return distanciaEnKilometros;
+    }
+    private PuntoConocido buscarCoordenadaPorEtiqueta(String etiqueta){
+        PuntoConocido salida=null;
+        int i=0;
+        boolean salirBucle=false;
+        while(i<puntosPuntoConocidos.size()|| !salirBucle){
+            if(puntosPuntoConocidos.get(i).getEtiquetaCoordenada().equals(etiqueta)){
+                salida=puntosPuntoConocidos.get(i);
+                salirBucle=true;
+            }
+            i++;
+        }
+        return salida;
+    }
+    public void anhadirDistanciaEntrePuntoYGasolineras(String etiquetaPuntoConocido){
+       try {
+           PuntoConocido punto = buscarCoordenadaPorEtiqueta(etiquetaPuntoConocido);
+           double latitudPunto=punto.getLatitud();
+           double longitudPunto=punto.getLongitud();
+           DistanciaGasolineraYPuntoConocido distancia=null;
+           for(Gasolinera gasolinera:gasolineras){
+               distancia=new DistanciaGasolineraYPuntoConocido(calcularDistanciaEntrePuntoYGasolinera(longitudPunto,latitudPunto,gasolinera.getLongitud(),gasolinera.getLatitud()));
+               gasolinera.setDistancia(distancia);
+               distancia.setPuntoConocido(punto);
+           }
+
+       }catch(NullPointerException e){
+           System.out.println("Puntero a null en el metodo anhadirDistanciaEntrePuntoYGasolineras()");
+        }
     }
 
     /**
@@ -98,7 +176,7 @@ public class PresenterGasolineras {
      * Parsea la información para obtener una lista de gasolineras.
      * Finalmente, dicha lista queda almacenada en la clase.
      *
-     * @param String Nombre del fichero
+     * @param fichero Nombre del fichero
      * @return boolean Devuelve true si se han podido cargar los datos
      */
     public boolean cargaDatosLocales(String fichero){
@@ -115,7 +193,7 @@ public class PresenterGasolineras {
      * y extraer una lista de gasolineras.
      * Finalmente, dicha lista queda almacenada en la clase.
      *
-     * @param String Dirección URL del JSON con los datos
+     * @param direccion Dirección URL del JSON con los datos
      * @return boolean Devuelve true si se han podido cargar los datos
      */
     public boolean cargaDatosRemotos(String direccion){ //Aqui se captura la posible excepcion que de el RemoteFetch, voy a cambiar la captura de una excepcion generica

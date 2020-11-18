@@ -14,7 +14,10 @@ import java.util.Objects;
 */
 
 public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
+    private DistanciaGasolineraYPuntoConocido distancia =null;
     private int ideess;
+    private double latitud;
+    private double longitud;
     private String localidad;
     private String provincia;
     private String direccion;
@@ -29,8 +32,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     /**
      * Constructor, getters y setters
      */
-    public Gasolinera (int ideess, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo){
+    public Gasolinera (int ideess,double latitud,double longitud, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo){
         this.ideess = ideess;
+        this.latitud=latitud;
+        this.longitud=longitud;
         this.localidad = localidad;
         this.provincia = provincia;
         this.direccion = direccion;
@@ -40,6 +45,28 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         this.rotulo = rotulo;
     }
 
+    public DistanciaGasolineraYPuntoConocido getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(DistanciaGasolineraYPuntoConocido distancia) {
+        this.distancia = distancia;
+    }
+    public double getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
+    }
+
+    public double getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
+    }
     public int getIdeess() { return ideess; }
     public void setIdeess(int ideess) { this.ideess = ideess; }
 
@@ -70,19 +97,13 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     public void setGasolina95(double gasolina95) { this.gasolina95 = gasolina95; }
 
 
-    /**
-     * toString
-     *
-     * Redefine el método toString para obtener los datos
-     * de una Gasolinera en formato texto
-     *
-     * @param
-     * @return String
-     */
     @Override
     public String toString() {
         return "Gasolinera{" +
-                "ideess=" + ideess +
+                "distancia=" + distancia +
+                ", ideess=" + ideess +
+                ", latitud=" + latitud +
+                ", longitud=" + longitud +
                 ", localidad='" + localidad + '\'' +
                 ", provincia='" + provincia + '\'' +
                 ", direccion='" + direccion + '\'' +
@@ -105,7 +126,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
      * Gasolinera g = getIntent().getExtras().getParcelable("id")
      */
     protected Gasolinera(Parcel in) {
+        distancia=in.readParcelable(DistanciaGasolineraYPuntoConocido.class.getClassLoader());
         ideess = in.readInt();
+        latitud=in.readDouble();
+        longitud=in.readDouble();
         localidad = in.readString();
         provincia = in.readString();
         direccion = in.readString();
@@ -122,7 +146,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeParcelable((Parcelable) distancia,flags);
         dest.writeInt(ideess);
+        dest.writeDouble(latitud);
+        dest.writeDouble(longitud);
         dest.writeString(localidad);
         dest.writeString(provincia);
         dest.writeString(direccion);
@@ -166,33 +193,26 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     }
 
-    /**
-     * Metodo sobreescrito para realizar correctamente comparaciones entre objetos gasolinera, necesario para pasar los criterios de calidad de Sonar ya que el metodo
-     * compareTo() lo requeria.
-     * @param o
-     * @return
-     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Gasolinera)) return false;
         Gasolinera that = (Gasolinera) o;
         return ideess == that.ideess &&
+                Double.compare(that.latitud, latitud) == 0 &&
+                Double.compare(that.longitud, longitud) == 0 &&
                 Double.compare(that.gasoleoA, gasoleoA) == 0 &&
                 Double.compare(that.gasoleoB, gasoleoB) == 0 &&
                 Double.compare(that.gasolina95, gasolina95) == 0 &&
-                Objects.equals(localidad, that.localidad) &&
-                Objects.equals(provincia, that.provincia) &&
-                Objects.equals(direccion, that.direccion) &&
-                Objects.equals(rotulo, that.rotulo);
+                distancia.equals(that.distancia) &&
+                localidad.equals(that.localidad) &&
+                provincia.equals(that.provincia) &&
+                direccion.equals(that.direccion) &&
+                rotulo.equals(that.rotulo);
     }
 
-    /**
-     * Metodo que genera un codigo único para identificar de forma univoca a cada gasolinera.
-     * @return
-     */
     @Override
     public int hashCode() {
-        return Objects.hash(ideess, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
+        return Objects.hash(distancia, ideess, latitud, longitud, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
     }
 }
