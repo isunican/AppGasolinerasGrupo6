@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     private ListView listViewGasolineras;
     private ArrayAdapter<Gasolinera> adapter;
     private ArrayAdapter<String> stringAdapter;
-    private String[] puntosReferencia={"Mi casa","Trabajo","Pueblo","Gimnasio","Colegio"};
+
     // Barra de progreso circular para mostar progeso de carga
     private ProgressBar progressBar;
 
@@ -72,43 +72,22 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         this.presenterGasolineras = new PresenterGasolineras();
+        this.presenterGasolineras.cargarCoordenadasDummy();
         this.spinner=(Spinner) findViewById(R.id.spinnerId);
-        this.stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,puntosReferencia);
+        this.stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas());
         this.stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown);
         this.spinner.setAdapter(stringAdapter);
         this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
-
-                    case 0:
-
-                        break;
-
-                    case 1:
-
-                        break;
-
-                    case 2:
-
-
-                        break;
-
-                    case 3:
-
-
-                        break;
-
-                    case 4:
-
-
-                        break;
-                }
+                String etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(position);
+                presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                String etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(0);
+                presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
             }
         });
         // Barra de progreso
