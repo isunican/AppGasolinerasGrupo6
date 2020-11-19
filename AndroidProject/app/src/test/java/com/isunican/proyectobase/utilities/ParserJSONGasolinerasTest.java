@@ -71,7 +71,7 @@ public class ParserJSONGasolinerasTest {
                     "\"IDCCAA\": \"06\"\n" +
                     "}";
             reader=new JsonReader(new StringReader(datos));
-            gasolinera=new Gasolinera(1039,"NOVALES","CANTABRIA","CARRETERA 6316 KM. 10,5",1.069,0.879, 1.179,"CEPSA");
+            gasolinera=new Gasolinera(1039,43.395944, -4.155194,"NOVALES","CANTABRIA","CARRETERA 6316 KM. 10,5",1.069,0.879, 1.179,"CEPSA");
             assertEquals(ParserJSONGasolineras.readGasolinera(reader),gasolinera);
         }catch(IOException e){
 
@@ -84,9 +84,9 @@ public class ParserJSONGasolinerasTest {
                     "\"C.P.\": \"39526\",\n" +
                     "\"Direcc\": \"CARRETERA 6316 KM. 10,5\",\n" +
                     "\"Horario\": \"L-D: 08:00-21:00\",\n" +
-                    "\"Latitud\": \"43,395944\",\n" +
+                    "\"Lat\": \"43,395944\",\n" +
                     "\"Localidud\": \"NOVALES\",\n" +
-                    "\"Longitud (WGS84)\": \"-4,155194\",\n" +
+                    "\"Long (WGS84)\": \"-4,155194\",\n" +
                     "\"Margen\": \"I\",\n" +
                     "\"Municipio\": \"Alfoz de Lloredo\",\n" +
                     "\"Precio Biodiesel\": \"\",\n" +
@@ -120,11 +120,13 @@ public class ParserJSONGasolinerasTest {
             String provincia = "CANTABRIA";
             String direccion = "";
             int id = 1039;
+            double latitud=0.0;
+            double longitud=0.0;
             double gasoleoA = 0.0;
             double gasoleoB = 0.879; //Incluyo el gasoleoB
             double sinplomo95 = 1.179;
 
-            gasolinera=new  Gasolinera(id,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo);
+            gasolinera=new  Gasolinera(id,latitud,longitud,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo);
             assertEquals(ParserJSONGasolineras.readGasolinera(reader),gasolinera);
         }catch(IOException e){
 
