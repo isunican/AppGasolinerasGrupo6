@@ -204,7 +204,6 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
                 Double.compare(that.gasoleoA, gasoleoA) == 0 &&
                 Double.compare(that.gasoleoB, gasoleoB) == 0 &&
                 Double.compare(that.gasolina95, gasolina95) == 0 &&
-                distancia.equals(that.distancia) &&
                 localidad.equals(that.localidad) &&
                 provincia.equals(that.provincia) &&
                 direccion.equals(that.direccion) &&

@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
  */
 public class GasolineraTest {
 
-    Gasolinera gasolineraBase=new Gasolinera(1000,"Santander","Santander", "Av Valdecilla", 1.299,1.359,1.359,"AVIA");
+    Gasolinera gasolineraBase=new Gasolinera(1000,43.459783, -3.826178,"Santander","Santander", "Av Valdecilla", 1.299,1.359,1.359,"AVIA");
     Gasolinera gasolineraAComparar;
 
 
@@ -22,15 +22,15 @@ public class GasolineraTest {
     public void compareToTest(){
 
         //Caso UG.1a Gasolinera con atributo gasoleoB con precio igual a la gasolineraBase, es decir, gasolineraBase.compareTo(gasolineraAComparar)==0
-        gasolineraAComparar=new Gasolinera(1212,"Santander","Santander", "Av Castros", 1.12,1.359,1.02,"REPSOL");
+        gasolineraAComparar=new Gasolinera(1212,43.459783, -3.826178,"Santander","Santander", "Av Castros", 1.12,1.359,1.02,"REPSOL");
         assertEquals(0,gasolineraBase.compareTo(gasolineraAComparar));
 
         //Caso UG.1b Gasolinera (gasolineraBase) con atributo gasoleoB con precio menor a la gasolineraAComparar , es decir, gasolineraBase.compareTo(gasolineraAComparar)==-1
-        gasolineraAComparar=new Gasolinera(1212,"Santander","Santander", "Av Castros", 1.12,1.360,1.02,"PETRONOR");
+        gasolineraAComparar=new Gasolinera(1212,43.459783, -3.826178,"Santander","Santander", "Av Castros", 1.12,1.360,1.02,"PETRONOR");
         assertEquals(-1,gasolineraBase.compareTo(gasolineraAComparar));
 
         //Caso UG.1c Gasolinera (gasolineraBase) con atributo gasoleoB con precio mayor a la gasolineraAComparar , es decir, gasolineraBase.compareTo(gasolineraAComparar)==1
-        gasolineraAComparar=new Gasolinera(1212,"Santander","Santander", "Av Castros", 1.12,1.358,1.02,"SPREEFEF");
+        gasolineraAComparar=new Gasolinera(1212,43.459783, -3.826178,"Santander","Santander", "Av Castros", 1.12,1.358,1.02,"SPREEFEF");
         assertEquals(1,gasolineraBase.compareTo(gasolineraAComparar));
 
         //Caso UG.1d Gasolinera (gasolineraBase) con atributo gasoleoB a la que se pasa a su metodo compareTo() un puntero nulo como parametro produciendo una NullPointerException
