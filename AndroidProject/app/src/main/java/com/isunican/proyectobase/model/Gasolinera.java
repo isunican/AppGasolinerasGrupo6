@@ -14,7 +14,7 @@ import java.util.Objects;
 */
 
 public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
-    private DistanciaGasolineraYPuntoConocido distancia =null;
+    private double distanciaEntreGasolineraYPunto =0.0;
     private int ideess;
     private double latitud;
     private double longitud;
@@ -45,13 +45,14 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         this.rotulo = rotulo;
     }
 
-    public DistanciaGasolineraYPuntoConocido getDistancia() {
-        return distancia;
+    public double getDistanciaEntreGasolineraYPunto() {
+        return distanciaEntreGasolineraYPunto;
     }
 
-    public void setDistancia(DistanciaGasolineraYPuntoConocido distancia) {
-        this.distancia = distancia;
+    public void setDistanciaEntreGasolineraYPunto(double distanciaEntreGasolineraYPunto) {
+        this.distanciaEntreGasolineraYPunto = distanciaEntreGasolineraYPunto;
     }
+
     public double getLatitud() {
         return latitud;
     }
@@ -100,7 +101,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     @Override
     public String toString() {
         return "Gasolinera{" +
-                "distancia=" + distancia +
+                "distancia=" + distanciaEntreGasolineraYPunto +
                 ", ideess=" + ideess +
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
@@ -126,7 +127,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
      * Gasolinera g = getIntent().getExtras().getParcelable("id")
      */
     protected Gasolinera(Parcel in) {
-        distancia=in.readParcelable(DistanciaGasolineraYPuntoConocido.class.getClassLoader());
+        distanciaEntreGasolineraYPunto=in.readDouble();
         ideess = in.readInt();
         latitud=in.readDouble();
         longitud=in.readDouble();
@@ -146,7 +147,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeParcelable((Parcelable) distancia,flags);
+        dest.writeDouble(distanciaEntreGasolineraYPunto);
         dest.writeInt(ideess);
         dest.writeDouble(latitud);
         dest.writeDouble(longitud);
@@ -198,7 +199,8 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         if (this == o) return true;
         if (!(o instanceof Gasolinera)) return false;
         Gasolinera that = (Gasolinera) o;
-        return ideess == that.ideess &&
+        return Double.compare(that.distanciaEntreGasolineraYPunto, distanciaEntreGasolineraYPunto) == 0 &&
+                ideess == that.ideess &&
                 Double.compare(that.latitud, latitud) == 0 &&
                 Double.compare(that.longitud, longitud) == 0 &&
                 Double.compare(that.gasoleoA, gasoleoA) == 0 &&
@@ -212,6 +214,6 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(distancia, ideess, latitud, longitud, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
+        return Objects.hash(distanciaEntreGasolineraYPunto, ideess, latitud, longitud, localidad, provincia, direccion, gasoleoA, gasoleoB, gasolina95, rotulo);
     }
 }

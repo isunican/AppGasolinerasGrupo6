@@ -157,11 +157,10 @@ public class PresenterGasolineras {
            PuntoConocido punto = buscarCoordenadaPorEtiqueta(etiquetaPuntoConocido);
            double latitudPunto=punto.getLatitud();
            double longitudPunto=punto.getLongitud();
-           DistanciaGasolineraYPuntoConocido distancia=null;
+           double distancia=0.0;
            for(Gasolinera gasolinera:gasolineras){
-               distancia=new DistanciaGasolineraYPuntoConocido(calcularDistanciaEntrePuntoYGasolinera(longitudPunto,latitudPunto,gasolinera.getLongitud(),gasolinera.getLatitud()));
-               gasolinera.setDistancia(distancia);
-               distancia.setPuntoConocido(punto);
+               distancia=calcularDistanciaEntrePuntoYGasolinera(longitudPunto,latitudPunto,gasolinera.getLongitud(),gasolinera.getLatitud());
+               gasolinera.setDistanciaEntreGasolineraYPunto(distancia);
            }
 
        }catch(NullPointerException e){
