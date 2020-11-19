@@ -27,26 +27,32 @@ import com.isunican.proyectobase.R;
 import com.isunican.proyectobase.model.Gasolinera;
 import com.isunican.proyectobase.presenter.PresenterGasolineras;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 public class UrgenciaActivity extends AppCompatActivity {
-    PresenterGasolineras presenterGasolineras;
+
+    ArrayList<Gasolinera> gasolineras;
     ArrayAdapter<Gasolinera> adapter;
     ListView listViewGasolineras;
     Toast toast;
+    TextView puntoReferencia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urgencia);
-
+        Bundle bundle = getIntent().getExtras();
+        gasolineras = bundle.getParcelableArrayList("ListaGasolinerasCercanas");
+        Intent intent=getIntent();
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_gasolinera2_foreground);
-        presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido();
-        adapter = new UrgenciaActivity.GasolineraArrayAdapter(this, 0, presenterGasolineras.getGasolineras());
+        puntoReferencia=findViewById(R.id.textView4);
+        puntoReferencia.setText(intent.getExtras().getString("Etiqueta"));
+        adapter = new UrgenciaActivity.GasolineraArrayAdapter(this, 0, gasolineras);
         listViewGasolineras = findViewById(R.id.listViewGasolineras);
-        if (!presenterGasolineras.getGasolineras().isEmpty()) {
+        if (!gasolineras.isEmpty()) {
             // datos obtenidos con exito
             listViewGasolineras.setAdapter(adapter);
             toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.datos_exito), Toast.LENGTH_LONG);
@@ -63,7 +69,7 @@ public class UrgenciaActivity extends AppCompatActivity {
                      */
                     Intent myIntent = new Intent(UrgenciaActivity.this, DetailActivity.class);
                     myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera),
-                            presenterGasolineras.getGasolineras().get(position));
+                    gasolineras.get(position));
                     UrgenciaActivity.this.startActivity(myIntent);
 
                 }
@@ -130,7 +136,7 @@ public class UrgenciaActivity extends AppCompatActivity {
             } else {
                 gasoleoB.setText(" " + gasolinera.getGasoleoB() + " " + getResources().getString(R.string.moneda)); // Si el valor es normal por estar disponible se le asigna la unidad del €
             }
-            distancia.setText(" "+gasolinera.getDistancia().toString()+" km");
+            distancia.setText(" "+gasolinera.getDistanciaEntreGasolineraYPunto()+" km");
 
 
             // Si las dimensiones de la pantalla son menores

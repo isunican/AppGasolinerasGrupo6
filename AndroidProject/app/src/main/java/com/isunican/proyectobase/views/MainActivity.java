@@ -15,6 +15,8 @@ import android.os.Bundle;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     private PresenterGasolineras presenterGasolineras;
     private Spinner spinner;
-
+    private String etiqueta="";
     // Vista de lista y adaptador para cargar datos en ella
     private ListView listViewGasolineras;
     private ArrayAdapter<Gasolinera> adapter;
@@ -80,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
         this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(position);
+                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(position);
                 presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                String etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(0);
+                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(0);
                 presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
             }
         });
@@ -145,7 +147,12 @@ public class MainActivity extends AppCompatActivity {
             Intent myIntent = new Intent(MainActivity.this, InfoActivity.class);
             MainActivity.this.startActivity(myIntent);
         }else if(item.getItemId()==R.id.itemUrgencia){
+            presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido();
             Intent intentUrgencia=new Intent(MainActivity.this,UrgenciaActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putParcelableArrayList("ListaGasolinerasCercanas",(ArrayList<Gasolinera>)presenterGasolineras.getGasolineras());
+            intentUrgencia.putExtras(bundle);
+            intentUrgencia.putExtra("Etiqueta",etiqueta);
             MainActivity.this.startActivity(intentUrgencia);
         }
         return true;
@@ -288,8 +295,7 @@ public class MainActivity extends AppCompatActivity {
                          * ya que es la misma que ocupa en la lista
                          */
                         Intent myIntent = new Intent(MainActivity.this, DetailActivity.class);
-                        myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera),
-                                presenterGasolineras.getGasolineras().get(position));
+                        myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera), presenterGasolineras.getGasolineras().get(position));
                         MainActivity.this.startActivity(myIntent);
 
                     }
