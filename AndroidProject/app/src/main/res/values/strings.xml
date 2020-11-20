@@ -13,7 +13,10 @@
     <string name="menuInfo">Info</string>
     <string name="pasoDatosInfo">DatosInfo</string>
     <string name="pasoDatosGasolinera">DatosGasolinera</string>
-    <string name="tituloDialogoDeError">Error, no se ha podido cargar la información de la API</string>
-    <string name="mensajeDialogoDeError">Debido a que no tiene  conexión a internet, ya sea a través de wifi o datos móviles, debemos cerrar la aplicación ya que no tenemos acceso a la información necesaria de la API.</string>
+    <string name="tituloDialogoDeErrorAPIInternet">Error, no se ha podido cargar la información de la API</string>
+    <string name="mensajeDialogoDeErrorInternet">Debido a que no tiene  conexión a internet, ya sea a través de wifi o datos móviles, debemos cerrar la aplicación ya que no tenemos acceso a la información necesaria de la API.</string>
     <string name="botonDeAceptarDialogoError">Aceptar</string>
+    <string name="tituloDialogoNoHayGasolinerasConDichoCombustible">Error, no hay gasolineras disponibles con el combustible actual</string>
+    <string name="mensajeDialogoNoHayGasolinerasConDichoCombustibleCercanas">Debido a que no hay gasolineras con el combustible seleccionado no se pueden listar las más cercanas ya que no hay disponibles</string>
+
 </resources>

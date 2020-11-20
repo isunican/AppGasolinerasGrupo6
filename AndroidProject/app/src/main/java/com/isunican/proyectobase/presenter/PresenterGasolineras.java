@@ -9,6 +9,7 @@ import com.isunican.proyectobase.utilities.RemoteFetch;
 import java.io.BufferedInputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 /*
@@ -23,7 +24,7 @@ import java.util.List;
 public class PresenterGasolineras {
 
     private List<Gasolinera> gasolineras;
-    private List<PuntoConocido> puntosPuntoConocidos;
+    private List<PuntoConocido> puntosPuntoConocidos; //Se crea un listado de puntos conocidos de los cuales despues obtener sus etiquetas para el desplegable de la interfaz y sus coordenadas para calcular distancias.
 
     //URLs para obtener datos de las gasolineras
     //https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/help
@@ -58,13 +59,26 @@ public class PresenterGasolineras {
     private void ordenarGasolinerasCargadasPorPrecioDeGasoleoB(){
         Collections.sort(gasolineras);
     }
+
+    /**
+     * Metodo que ordena las gasolineras segun la distancia a la que se encuentren a un punto, de menor a mayor distancia. Para ello se utiliza la clase OrdenarGasolinerasPorDistancia como
+     * parametro que indica dicho orden al metodo sort() de Java.
+     */
     public void ordenarGasolinerasPorDistanciaAPuntoConocido(){
-        for(int i=0;i<gasolineras.size();i++){
-            if(gasolineras.get(i).getGasoleoB()>999.0){
-                gasolineras.remove(gasolineras.get(i));
+
+        Collections.sort(gasolineras,new OrdenarGasolinerasPorDistancia());
+    }
+
+    /**
+     * Metodo que elimina las gasolineras que no dispongan de gasoleo B.
+     */
+    public void eliminarGasolinerasSinGasoleoB(){
+        Iterator <Gasolinera> iterador=gasolineras.iterator();
+        while(iterador.hasNext()){
+            if(iterador.next().getGasoleoB()>999.0){ //El valor por defecto para indicar que la gasolinera no disponia de gasoleo B era -1.0 pero lo cambie para que en la primera funcionalidad, al ordenar, se mostrasen
+                iterador.remove();                   //estas gasolineras las ultimas, en esta funcionalidad se eliminan.
             }
         }
-        Collections.sort(gasolineras,new OrdenarGasolinerasPorDistancia());
     }
     /**
      * cargaDatosGasolineras
@@ -103,7 +117,7 @@ public class PresenterGasolineras {
     }
 
     /**
-     * Carga una lista de puntos conocidos a mano para hacer pruebas de funcionamiento
+     * Carga a la lista de puntos conocidos varios puntos definidos a "mano".
      * @return
      */
     public boolean cargarCoordenadasDummy(){
@@ -115,6 +129,10 @@ public class PresenterGasolineras {
         return true;
     }
 
+    /**
+     * Metodo que devuelve un listado con las etiquetas de los puntos conocidos cargados con el fin de poder mostrarlas en el desplegable de la interfaz y seleccionar un punto de referencia.
+     * @return List<String>
+     */
     public List<String> mostrarEtiquetasCoordenadas(){
         List<String> etiquetasCoordenadas=new ArrayList<>();
         for(PuntoConocido punto:puntosPuntoConocidos){
@@ -123,6 +141,14 @@ public class PresenterGasolineras {
         return etiquetasCoordenadas;
     }
 
+    /**
+     * Metodo auxiliar que utliza la formula de Haversine para calcular la distancia entre dos puntos del globo terraqueo, los puntos son determinados por coordenadas.
+     * @param lon1
+     * @param lat1
+     * @param lon2
+     * @param lat2
+     * @return double
+     */
     private double calcularDistanciaEntrePuntoYGasolinera(double lon1, double lat1, double lon2, double lat2){
 
             double radioTerrestre = 6371.0; // km
@@ -144,6 +170,12 @@ public class PresenterGasolineras {
             double distanciaEnKilometros =  Math.floor(radioTerrestre * c * 10) / 10; // se trunca a un decimal
             return distanciaEnKilometros;
     }
+
+    /**
+     * Metodo auxiliar para buscar un determinado punto conocido a partir de su etiqueta identificativa
+     * @param etiqueta
+     * @return PuntoConocido
+     */
     private PuntoConocido buscarCoordenadaPorEtiqueta(String etiqueta){
         PuntoConocido salida=null;
         int i=0;
@@ -157,19 +189,26 @@ public class PresenterGasolineras {
         }
         return salida;
     }
+
+    /**
+     * Metodo que asigna a cada gasolinera la distancia que hay a un punto conocido seleccionado indicandolo por su etiqueta.
+     * Usa los metodos auxiliares de busqueda de puntos y calculo de distancias entre coordenadas.
+     *
+     * @param etiquetaPuntoConocido
+     */
     public void anhadirDistanciaEntrePuntoYGasolineras(String etiquetaPuntoConocido){
        try {
            PuntoConocido punto = buscarCoordenadaPorEtiqueta(etiquetaPuntoConocido);
            double latitudPunto=punto.getLatitud();
            double longitudPunto=punto.getLongitud();
-           double distancia=0.0;
+           double distancia;
            for(Gasolinera gasolinera:gasolineras){
                distancia=calcularDistanciaEntrePuntoYGasolinera(longitudPunto,latitudPunto,gasolinera.getLongitud(),gasolinera.getLatitud());
                gasolinera.setDistanciaEntreGasolineraYPunto(distancia);
            }
 
        }catch(NullPointerException e){
-           System.out.println("Puntero a null en el metodo anhadirDistanciaEntrePuntoYGasolineras()");
+           Log.d("NullPointerException","Ha ocurrido una excepción por el uso de un puntero a null");
         }
     }
 

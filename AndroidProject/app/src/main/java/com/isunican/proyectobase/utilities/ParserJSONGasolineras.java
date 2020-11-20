@@ -130,9 +130,9 @@ public class ParserJSONGasolineras {
                 }
             }else if(name.equals("Precio Gasolina 95 E5") && reader.peek() != JsonToken.NULL) {
                 sinplomo95 = parseDouble(reader.nextString().replace(",", "."));
-            } else if(name.equals("Longitud (WGS84)") && reader.peek() != JsonToken.NULL) {
+            } else if(name.equals("Longitud (WGS84)") && reader.peek() != JsonToken.NULL) { //Previamente no se sacaba la longitud del Json.
             longitud = parseDouble(reader.nextString().replace(",", "."));
-            } else if(name.equals("Latitud") && reader.peek() != JsonToken.NULL) {
+            } else if(name.equals("Latitud") && reader.peek() != JsonToken.NULL) { //Previamente no se sacaba la latitud del Json.
             latitud = parseDouble(reader.nextString().replace(",", "."));
             }else if(name.equals("Dirección")){
                 direccion = reader.nextString();
@@ -142,7 +142,7 @@ public class ParserJSONGasolineras {
 
         }
         reader.endObject();
-        return new Gasolinera(id,latitud,longitud,localidad,provincia,direccion,gasoleoA,gasoleoB, sinplomo95,rotulo); //Incluyo el gasoleoB
+        return new Gasolinera(id,latitud,longitud,localidad,provincia,direccion,gasoleoA,gasoleoB,sinplomo95,rotulo); //Incluyo el gasoleoB, la latitud y la longitud.
     }
 
     private static double parseDouble(String str) {

@@ -147,13 +147,28 @@ public class MainActivity extends AppCompatActivity {
             Intent myIntent = new Intent(MainActivity.this, InfoActivity.class);
             MainActivity.this.startActivity(myIntent);
         }else if(item.getItemId()==R.id.itemUrgencia){
-            presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido();
-            Intent intentUrgencia=new Intent(MainActivity.this,UrgenciaActivity.class);
-            Bundle bundle=new Bundle();
-            bundle.putParcelableArrayList("ListaGasolinerasCercanas",(ArrayList<Gasolinera>)presenterGasolineras.getGasolineras());
-            intentUrgencia.putExtras(bundle);
-            intentUrgencia.putExtra("Etiqueta",etiqueta);
-            MainActivity.this.startActivity(intentUrgencia);
+            presenterGasolineras.eliminarGasolinerasSinGasoleoB();
+            if(presenterGasolineras.getGasolineras().isEmpty()){
+                AlertDialog.Builder builder=new AlertDialog.Builder(this);
+                builder.setTitle(R.string.tituloDialogoNoHayGasolinerasConDichoCombustible);
+                builder.setMessage(R.string.mensajeDialogoNoHayGasolinerasConDichoCombustibleCercanas);
+                builder.setPositiveButton(R.string.botonDeAceptarDialogoError, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }else {
+                presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido();
+                Intent intentUrgencia = new Intent(MainActivity.this, UrgenciaActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("ListaGasolinerasCercanas", (ArrayList<Gasolinera>) presenterGasolineras.getGasolineras());
+                intentUrgencia.putExtras(bundle);
+                intentUrgencia.putExtra("Etiqueta", etiqueta);
+                MainActivity.this.startActivity(intentUrgencia);
+            }
         }
         return true;
     }
@@ -260,8 +275,8 @@ public class MainActivity extends AppCompatActivity {
                 Se crea un dialogo de error, este indica que no hay acceso a internet y que se debe de cerrar la aplicación. Esto sucede al seleccionar el botón aceptar del mismo.
                 */
                 AlertDialog.Builder builder=new AlertDialog.Builder(activity);
-                builder.setTitle(R.string.tituloDialogoDeError);
-                builder.setMessage(R.string.mensajeDialogoDeError);
+                builder.setTitle(R.string.tituloDialogoDeErrorAPIInternet);
+                builder.setMessage(R.string.mensajeDialogoDeErrorInternet);
                 builder.setPositiveButton(R.string.botonDeAceptarDialogoError, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

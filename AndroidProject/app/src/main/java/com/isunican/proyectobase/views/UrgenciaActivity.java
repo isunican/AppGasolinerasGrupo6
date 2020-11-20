@@ -134,7 +134,7 @@ public class UrgenciaActivity extends AppCompatActivity {
             if (gasolinera.getGasoleoB() == 1000.0) { //Le cambie el valor de -1.0 a uno muy alto para que en la ordenacion estuvieran al final de la ListView. Este valor indica que no disponen del producto en la gasolinera.
                 gasoleoB.setText(" N/D"); //Introduzco esta salida que significa no disponible.
             } else {
-                gasoleoB.setText(" " + gasolinera.getGasoleoB() + " " + getResources().getString(R.string.moneda)); // Si el valor es normal por estar disponible se le asigna la unidad del €
+                gasoleoB.setText(" " + gasolinera.getGasoleoB() + getResources().getString(R.string.moneda)); // Si el valor es normal por estar disponible se le asigna la unidad del €
             }
             distancia.setText(" "+gasolinera.getDistanciaEntreGasolineraYPunto()+" km");
 

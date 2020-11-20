@@ -14,10 +14,10 @@ import java.util.Objects;
 */
 
 public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
-    private double distanciaEntreGasolineraYPunto =0.0;
+    private double distanciaEntreGasolineraYPunto =0.0; //Se anhade este atributo que indica la distancia entre la presente gasolinera y un punto de referencia.
     private int ideess;
-    private double latitud;
-    private double longitud;
+    private double latitud; //Se ha incluido el elemento latitud que no estaba previamente.
+    private double longitud; //Se ha incluido el elemento longitud que no estaba previamente.
     private String localidad;
     private String provincia;
     private String direccion;
@@ -34,8 +34,8 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
      */
     public Gasolinera (int ideess,double latitud,double longitud, String localidad, String provincia, String direccion, double gasoleoA,double gasoleoB, double gasolina95, String rotulo){
         this.ideess = ideess;
-        this.latitud=latitud;
-        this.longitud=longitud;
+        this.latitud=latitud; //Se ha incluido el elemento latitud que no estaba previamente.
+        this.longitud=longitud; //Se ha incluido el elemento longitud que no estaba previamente.
         this.localidad = localidad;
         this.provincia = provincia;
         this.direccion = direccion;
@@ -45,6 +45,9 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         this.rotulo = rotulo;
     }
 
+    /*
+    Se incluyen los metodos get y set para poder anhadir la distancia a un punto a traves de sus coordenadas y obtener la misma.
+     */
     public double getDistanciaEntreGasolineraYPunto() {
         return distanciaEntreGasolineraYPunto;
     }
@@ -53,6 +56,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
         this.distanciaEntreGasolineraYPunto = distanciaEntreGasolineraYPunto;
     }
 
+
+    /*
+    Se incluyen los metodos get y set para poder modificar y obtener la latitud y longitud de la gasolinera.
+    */
     public double getLatitud() {
         return latitud;
     }
@@ -68,6 +75,7 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
     public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
+
     public int getIdeess() { return ideess; }
     public void setIdeess(int ideess) { this.ideess = ideess; }
 
@@ -127,10 +135,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
      * Gasolinera g = getIntent().getExtras().getParcelable("id")
      */
     protected Gasolinera(Parcel in) {
-        distanciaEntreGasolineraYPunto=in.readDouble();
+        distanciaEntreGasolineraYPunto=in.readDouble(); //Se incluye para pasar el valor junto con el objeto entre activities
         ideess = in.readInt();
-        latitud=in.readDouble();
-        longitud=in.readDouble();
+        latitud=in.readDouble(); //Se incluye para pasar el valor junto con el objeto entre activities
+        longitud=in.readDouble(); //Se incluye para pasar el valor junto con el objeto entre activities
         localidad = in.readString();
         provincia = in.readString();
         direccion = in.readString();
@@ -147,10 +155,10 @@ public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeDouble(distanciaEntreGasolineraYPunto);
+        dest.writeDouble(distanciaEntreGasolineraYPunto); //Se incluye para pasar el valor junto con el objeto entre activities
         dest.writeInt(ideess);
-        dest.writeDouble(latitud);
-        dest.writeDouble(longitud);
+        dest.writeDouble(latitud); //Se incluye para pasar el valor junto con el objeto entre activities
+        dest.writeDouble(longitud); //Se incluye para pasar el valor junto con el objeto entre activities
         dest.writeString(localidad);
         dest.writeString(provincia);
         dest.writeString(direccion);
