@@ -125,7 +125,7 @@ public class ParserJSONGasolineras {
                 gasoleoA = parseDouble(reader.nextString().replace(",", "."));
             }else if(name.equals("Precio Gasoleo B") && reader.peek() != JsonToken.NULL) { //He incluido la captura del gasoleo B ya que me hacia falta para listar las gasolineras por su valor.
                 gasoleoB = parseDouble(reader.nextString().replace(",", "."));
-                if(gasoleoB==-1.0){
+                if(gasoleoB==-1.0 || gasoleoB==0.0){
                     gasoleoB=1000.0; //Cambio su valor a uno alto ya que al ordenar las gasolineras por el precio de menor a mayor, aquellas que no disponen del producto deben ir las ultimas.
                 }
             }else if(name.equals("Precio Gasolina 95 E5") && reader.peek() != JsonToken.NULL) {
@@ -147,7 +147,7 @@ public class ParserJSONGasolineras {
 
     private static double parseDouble(String str) {
         if (str == null || str.isEmpty()) {
-            return -1;
+            return -1.0;
         } else {
             return Double.parseDouble(str.replace(",", "."));
         }

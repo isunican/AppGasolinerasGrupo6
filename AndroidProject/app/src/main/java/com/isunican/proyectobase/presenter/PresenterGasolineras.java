@@ -59,6 +59,11 @@ public class PresenterGasolineras {
         Collections.sort(gasolineras);
     }
     public void ordenarGasolinerasPorDistanciaAPuntoConocido(){
+        for(int i=0;i<gasolineras.size();i++){
+            if(gasolineras.get(i).getGasoleoB()>999.0){
+                gasolineras.remove(gasolineras.get(i));
+            }
+        }
         Collections.sort(gasolineras,new OrdenarGasolinerasPorDistancia());
     }
     /**
