@@ -1,7 +1,6 @@
 package com.isunican.proyectobase.presenter;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import com.isunican.proyectobase.model.*;
 import com.isunican.proyectobase.utilities.ParserJSONGasolineras;
@@ -24,7 +23,7 @@ import java.util.List;
 public class PresenterGasolineras {
 
     private List<Gasolinera> gasolineras;
-    private List<PuntoConocido> puntosPuntoConocidos; //Se crea un listado de puntos conocidos de los cuales despues obtener sus etiquetas para el desplegable de la interfaz y sus coordenadas para calcular distancias.
+    private List<PuntoConocido> puntosPuntoConocido; //Se crea un listado de puntos conocidos de los cuales despues obtener sus etiquetas para el desplegable de la interfaz y sus coordenadas para calcular distancias.
 
     //URLs para obtener datos de las gasolineras
     //https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/help
@@ -38,7 +37,7 @@ public class PresenterGasolineras {
      */
     public PresenterGasolineras(){
         gasolineras = new ArrayList<>();
-        puntosPuntoConocidos=new ArrayList<>();
+        puntosPuntoConocido =new ArrayList<>();
     }
 
     public List<Gasolinera> getGasolineras(){
@@ -121,11 +120,11 @@ public class PresenterGasolineras {
      * @return
      */
     public boolean cargarCoordenadasDummy(){
-        this.puntosPuntoConocidos.add(new PuntoConocido("Mi casa",43.459783, -3.826178));
-        this.puntosPuntoConocidos.add(new PuntoConocido("Trabajo",43.349337, -4.051923));
-        this.puntosPuntoConocidos.add(new PuntoConocido("Colegio",43.477803, -3.792442));
-        this.puntosPuntoConocidos.add(new PuntoConocido("Pueblo",43.334737, -3.549662));
-        this.puntosPuntoConocidos.add(new PuntoConocido("Gimnasio",43.483004, -3.791504));
+        this.puntosPuntoConocido.add(new PuntoConocido("Mi casa",43.459783, -3.826178));
+        this.puntosPuntoConocido.add(new PuntoConocido("Trabajo",43.349337, -4.051923));
+        this.puntosPuntoConocido.add(new PuntoConocido("Colegio",43.477803, -3.792442));
+        this.puntosPuntoConocido.add(new PuntoConocido("Pueblo",43.334737, -3.549662));
+        this.puntosPuntoConocido.add(new PuntoConocido("Gimnasio",43.483004, -3.791504));
         return true;
     }
 
@@ -135,7 +134,7 @@ public class PresenterGasolineras {
      */
     public List<String> mostrarEtiquetasCoordenadas(){
         List<String> etiquetasCoordenadas=new ArrayList<>();
-        for(PuntoConocido punto:puntosPuntoConocidos){
+        for(PuntoConocido punto: puntosPuntoConocido){
             etiquetasCoordenadas.add(punto.getEtiquetaCoordenada());
         }
         return etiquetasCoordenadas;
@@ -180,9 +179,9 @@ public class PresenterGasolineras {
         PuntoConocido salida=null;
         int i=0;
         boolean salirBucle=false;
-        while(i<puntosPuntoConocidos.size()|| !salirBucle){
-            if(puntosPuntoConocidos.get(i).getEtiquetaCoordenada().equals(etiqueta)){
-                salida=puntosPuntoConocidos.get(i);
+        while(i< puntosPuntoConocido.size()|| !salirBucle){
+            if(puntosPuntoConocido.get(i).getEtiquetaCoordenada().equals(etiqueta)){
+                salida= puntosPuntoConocido.get(i);
                 salirBucle=true;
             }
             i++;

@@ -46,19 +46,20 @@ import android.widget.Toast;
 */
 public class MainActivity extends AppCompatActivity {
 
-    private PresenterGasolineras presenterGasolineras;
-    private Spinner spinner;
-    private String etiqueta="";
+    PresenterGasolineras presenterGasolineras;
+    Spinner spinner; //declaro un spinner ya que quiero que en la barra de informacion se puedan seleccionar las etiquetas de los puntos conocidos en el desplegable
+    String etiqueta=""; //Almaceno la etiqueta seleccionada en el desplegable de la interfaz para despues pasarla a la UrgenciaActivity con un intent y mostrar el punto de referencia
+
     // Vista de lista y adaptador para cargar datos en ella
-    private ListView listViewGasolineras;
-    private ArrayAdapter<Gasolinera> adapter;
-    private ArrayAdapter<String> stringAdapter;
+    ListView listViewGasolineras;
+    ArrayAdapter<Gasolinera> adapter;
+    ArrayAdapter<String> stringAdapter; //Declaro este adapter diferente para darle formato al spinner y poder cargar datos en el
 
     // Barra de progreso circular para mostar progeso de carga
-    private ProgressBar progressBar;
+    ProgressBar progressBar;
 
     // Swipe and refresh (para recargar la lista con un swipe)
-    private SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     /**
      * onCreate
@@ -73,25 +74,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.presenterGasolineras = new PresenterGasolineras();
-        this.presenterGasolineras.cargarCoordenadasDummy();
-        this.spinner=(Spinner) findViewById(R.id.spinnerId);
-        this.stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas());
-        this.stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown);
-        this.spinner.setAdapter(stringAdapter);
-        this.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        presenterGasolineras = new PresenterGasolineras();
+        presenterGasolineras.cargarCoordenadasDummy(); //Cargo los datos desde memoria en la lista de PuntoConocido
+        spinner=(Spinner) findViewById(R.id.spinnerId); //Identifico la vista
+        stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas()); //Determino el formato y la información a mostrar en el spinner
+        stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown); //Determino el formato de los elementos que se despliegan al seleccionar el spinner
+        spinner.setAdapter(stringAdapter); //Asigno al spinner su adapter
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Indico el comportamiento ante el evento de seleccionar un item en el spinner o no hacerlo
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(position);
-                presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) { //Al seleccionar un elemento del spinner:
+                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(position); //Almaceno la etiqueta, que es el elemento del spinner seleccionado
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(0);
-                presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta);
+                etiqueta=presenterGasolineras.mostrarEtiquetasCoordenadas().get(0); //Si no se selecciona nada es como si se seleccionase el primer elemento del spinner
             }
         });
+
+
         // Barra de progreso
         // https://materialdoc.com/components/progress/
         progressBar = new ProgressBar(MainActivity.this,null,android.R.attr.progressBarStyleLarge);
@@ -139,35 +140,45 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         if(item.getItemId()==R.id.itemActualizar){
+
             mSwipeRefreshLayout.setRefreshing(true);
             new CargaDatosGasolinerasTask(this).execute();
+
         }
         else if(item.getItemId()==R.id.itemInfo){
+
             Intent myIntent = new Intent(MainActivity.this, InfoActivity.class);
             MainActivity.this.startActivity(myIntent);
-        }else if(item.getItemId()==R.id.itemUrgencia){
-            presenterGasolineras.eliminarGasolinerasSinGasoleoB();
-            if(presenterGasolineras.getGasolineras().isEmpty()){
+
+        }else if(item.getItemId()==R.id.itemUrgencia){ //Si en el menu de opciones se selecciona la opcion Urgencia:
+
+            presenterGasolineras.eliminarGasolinerasSinGasoleoB(); //Se eliminan de la lista las gasolineras que no disponen del combustible que nos interesa
+
+            if(presenterGasolineras.getGasolineras().isEmpty()){ //Si al eliminar las gasolineras sin el combustible ocurre que no quedan gasolineras se muestra un mensaje informando del error, usando un AlertDialog
+
                 AlertDialog.Builder builder=new AlertDialog.Builder(this);
                 builder.setTitle(R.string.tituloDialogoNoHayGasolinerasConDichoCombustible);
                 builder.setMessage(R.string.mensajeDialogoNoHayGasolinerasConDichoCombustibleCercanas);
                 builder.setPositiveButton(R.string.botonDeAceptarDialogoError, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                        dialog.dismiss(); //Al seleccionar el boton aceptar desaparece el AlertDialog ya que la finalidad era la de informar y mantener el mensaje hasta seleccionar el boton
                     }
                 });
                 AlertDialog dialog = builder.create();
                 dialog.show();
-            }else {
-                presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido();
+
+            }else { //Si al eliminar las gasolineras sin el combustible sigue habiendo gasolineras:
+                presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta); //Anhado la distancia que hay desde el punto indicado por la etiqueta y todas las gasolineras a cada gasolinera
+                presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido(); //Las gasolineras se ordenan por la distancia hay entre cada una de ellas y el punto de referencia seleccionado
                 Intent intentUrgencia = new Intent(MainActivity.this, UrgenciaActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("ListaGasolinerasCercanas", (ArrayList<Gasolinera>) presenterGasolineras.getGasolineras());
-                intentUrgencia.putExtras(bundle);
-                intentUrgencia.putExtra("Etiqueta", etiqueta);
-                MainActivity.this.startActivity(intentUrgencia);
+                bundle.putParcelableArrayList("ListaGasolinerasCercanas", (ArrayList<Gasolinera>) presenterGasolineras.getGasolineras()); //Se prepara mediante un bundle la lista de gasolineras de interes ordenadas para enviar
+                intentUrgencia.putExtras(bundle); //Se le pasa el bundle al intent para pasarle a la UrgenciaActivity
+                intentUrgencia.putExtra("Etiqueta", etiqueta); //Se le pasa la etiqueta que indica el punto de referencia a la UrgenciaActivity, esta se mostrara en la barra informativa
+                MainActivity.this.startActivity(intentUrgencia); //Se pasa a la UrgenciaActivity con toda la informacion necesaria
             }
         }
         return true;

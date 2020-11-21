@@ -37,32 +37,33 @@ public class UrgenciaActivity extends AppCompatActivity {
     ArrayAdapter<Gasolinera> adapter;
     ListView listViewGasolineras;
     Toast toast;
-    TextView puntoReferencia;
+    TextView puntoReferencia; //Se utiliza para mostrar la etiqueta pasado desde la MainActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_urgencia);
-        Bundle bundle = getIntent().getExtras();
-        gasolineras = bundle.getParcelableArrayList("ListaGasolinerasCercanas");
-        Intent intent=getIntent();
+
+        Bundle bundle = getIntent().getExtras(); //Se saca el bundle del intent
+        gasolineras = bundle.getParcelableArrayList("ListaGasolinerasCercanas"); //Se saca del bundle la lista de gasolineras pasadas de la actividad anterior
+        Intent intent=getIntent(); //Se obtiene el intent
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_gasolinera2_foreground);
-        puntoReferencia=findViewById(R.id.textView4);
-        puntoReferencia.setText(intent.getExtras().getString("Etiqueta"));
-        adapter = new UrgenciaActivity.GasolineraArrayAdapter(this, 0, gasolineras);
-        listViewGasolineras = findViewById(R.id.listViewGasolineras);
-        if (!gasolineras.isEmpty()) {
+        puntoReferencia=findViewById(R.id.textView4); //Se le da valor a la vista
+        puntoReferencia.setText(intent.getExtras().getString("Etiqueta")); //Se obtiene del intent la etiqueta pasada de la actividad anterior y se asigna al TextView
+        adapter = new UrgenciaActivity.GasolineraArrayAdapter(this, 0, gasolineras); //Se crea un adapter GasolineraArrayAdapter al que se le pasa la lista de gasolineras a mostrar en el ListView
+        listViewGasolineras = findViewById(R.id.listViewGasolineras); //Se le da valor al ListView
+        if (!gasolineras.isEmpty()) { //Si la lista de gasolineras no esta vacia:
             // datos obtenidos con exito
-            listViewGasolineras.setAdapter(adapter);
+            listViewGasolineras.setAdapter(adapter); //Se asigna el adapter al ListView para que muestre la lista de gasolineras ¡
             toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.datos_exito), Toast.LENGTH_LONG);
         }
         if (toast != null) {
             toast.show();
         }
-        if(listViewGasolineras!=null) {
+        if(listViewGasolineras!=null) { //Si el ListView no es un puntero a null:
             listViewGasolineras.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                public void onItemClick(AdapterView<?> a, View v, int position, long id) { //Al seleccionar un elemento de ListView, una gasolinera:
 
                     /* Obtengo el elemento directamente de su posicion,
                      * ya que es la misma que ocupa en la lista
@@ -70,7 +71,7 @@ public class UrgenciaActivity extends AppCompatActivity {
                     Intent myIntent = new Intent(UrgenciaActivity.this, DetailActivity.class);
                     myIntent.putExtra(getResources().getString(R.string.pasoDatosGasolinera),
                     gasolineras.get(position));
-                    UrgenciaActivity.this.startActivity(myIntent);
+                    UrgenciaActivity.this.startActivity(myIntent); //Paso de UrgenciaActivity a DetailActivity pasando con el intent la gasolinera seleccionada en el ListView para mostrar su informacion
 
                 }
             });
@@ -79,7 +80,7 @@ public class UrgenciaActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu1urgencia, menu);
+        getMenuInflater().inflate(R.menu.menu1urgencia, menu); //Se crea un nuevo menu con solo dos entradas, la de Pantalla principal y la opcion de Info
         return true;
     }
     @Override
@@ -87,10 +88,10 @@ public class UrgenciaActivity extends AppCompatActivity {
 
         if(item.getItemId()==R.id.itemInfo){
             Intent myIntent = new Intent(UrgenciaActivity.this, InfoActivity.class);
-            UrgenciaActivity.this.startActivity(myIntent);
+            UrgenciaActivity.this.startActivity(myIntent); //Pasamos a la InfoActivity
         }else if(item.getItemId()==R.id.itemPantallaPrincipal){
             Intent intentPrincipal=new Intent(UrgenciaActivity.this,MainActivity.class);
-            UrgenciaActivity.this.startActivity(intentPrincipal);
+            UrgenciaActivity.this.startActivity(intentPrincipal); //Pasamos a la MainActivity
         }
         return true;
     }
@@ -130,13 +131,9 @@ public class UrgenciaActivity extends AppCompatActivity {
 
             // Y carga los datos del item
 
-            direccion.setText(gasolinera.getDireccion());
-            if (gasolinera.getGasoleoB() == 1000.0) { //Le cambie el valor de -1.0 a uno muy alto para que en la ordenacion estuvieran al final de la ListView. Este valor indica que no disponen del producto en la gasolinera.
-                gasoleoB.setText(" N/D"); //Introduzco esta salida que significa no disponible.
-            } else {
-                gasoleoB.setText(" " + gasolinera.getGasoleoB() + getResources().getString(R.string.moneda)); // Si el valor es normal por estar disponible se le asigna la unidad del €
-            }
-            distancia.setText(" "+gasolinera.getDistanciaEntreGasolineraYPunto()+" km");
+            direccion.setText(gasolinera.getDireccion()); //Le paso al TextView la direccion de la gasolinera para que la muestre en cada item del ListView
+            gasoleoB.setText(" " + gasolinera.getGasoleoB() + getResources().getString(R.string.moneda)); //Se le asigna el precio en euros (€)
+            distancia.setText(" "+gasolinera.getDistanciaEntreGasolineraYPunto()+" km"); //Se le asigna la distancia real entre el punto y la gasolinera para cada gasolinera
 
 
             // Si las dimensiones de la pantalla son menores
