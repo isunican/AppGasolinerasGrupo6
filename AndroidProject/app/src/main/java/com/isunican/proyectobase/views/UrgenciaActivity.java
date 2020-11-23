@@ -40,7 +40,7 @@ public class UrgenciaActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_gasolinera2_foreground);
         puntoReferencia=findViewById(R.id.textView4); //Se le da valor a la vista
         puntoReferencia.setText(intent.getExtras().getString("Etiqueta")); //Se obtiene del intent la etiqueta pasada de la actividad anterior y se asigna al TextView
-        adapter = new UrgenciaActivity.GasolineraArrayAdapter(this, 0, gasolineras); //Se crea un adapter GasolineraArrayAdapter al que se le pasa la lista de gasolineras a mostrar en el ListView
+        adapter = new UrgenciaActivity.GasolineraUrgenciaArrayAdapter(this, 0, gasolineras); //Se crea un adapter GasolineraArrayAdapter al que se le pasa la lista de gasolineras a mostrar en el ListView
         listViewGasolineras = findViewById(R.id.listViewGasolineras); //Se le da valor al ListView
         if (!gasolineras.isEmpty()) { //Si la lista de gasolineras no esta vacia:
             // datos obtenidos con exito
@@ -84,17 +84,17 @@ public class UrgenciaActivity extends AppCompatActivity {
         }
         return true;
     }
-    class GasolineraArrayAdapter extends ArrayAdapter<Gasolinera> {
+    class GasolineraUrgenciaArrayAdapter extends ArrayAdapter<Gasolinera> {
 
-        private Context context;
-        private List<Gasolinera> listaGasolineras;
+        private Context contexto;
+        private List<Gasolinera> listaGasolinerasUrgencia;
 
 
         // Constructor
-        public GasolineraArrayAdapter(Context context, int resource, List<Gasolinera> objects) {
+        public GasolineraUrgenciaArrayAdapter(Context context, int resource, List<Gasolinera> objects) {
             super(context, resource, objects);
-            this.context = context;
-            this.listaGasolineras = objects;
+            this.contexto = context;
+            this.listaGasolinerasUrgencia = objects;
 
         }
 
@@ -103,10 +103,10 @@ public class UrgenciaActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
 
             // Obtiene el elemento que se está mostrando
-            Gasolinera gasolinera = listaGasolineras.get(position);
+            Gasolinera gasolinera = listaGasolinerasUrgencia.get(position);
 
             // Indica el layout a usar en cada elemento de la lista
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater) contexto.getSystemService(LAYOUT_INFLATER_SERVICE);
             View view = inflater.inflate(R.layout.item_gasolinera, null);
 
             // Asocia las variables de dicho layout
@@ -114,9 +114,14 @@ public class UrgenciaActivity extends AppCompatActivity {
             /*
             He cambiado las elementos de cada item de acuerdo a lo que exige la funcionalidad Listar gasolineras más cercanas
              */
+
+
+
             TextView direccion = view.findViewById(R.id.direccionId);
             TextView gasoleoB = view.findViewById(R.id.precioDieselId);
             TextView distancia = view.findViewById(R.id.distanciaHastaGasolineraId);
+
+
 
             // Y carga los datos del item
 
@@ -125,9 +130,11 @@ public class UrgenciaActivity extends AppCompatActivity {
             distancia.setText(" "+gasolinera.getDistanciaEntreGasolineraYPunto()+" km"); //Se le asigna la distancia real entre el punto y la gasolinera para cada gasolinera
 
 
+
+            
             // Si las dimensiones de la pantalla son menores
             // reducimos el texto de las etiquetas para que se vea correctamente
-            DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics(); //He modificado el ajuste de tamanho para los TextView que necesito
+            DisplayMetrics displayMetrics = contexto.getResources().getDisplayMetrics(); //He modificado el ajuste de tamanho para los TextView que necesito
             if (displayMetrics.widthPixels < 720) {
                 TextView tmp;
                 tmp = view.findViewById(R.id.direccionId);
