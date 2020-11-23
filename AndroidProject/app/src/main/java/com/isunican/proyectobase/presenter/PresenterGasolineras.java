@@ -174,8 +174,8 @@ public class PresenterGasolineras {
             double a = (sinlat * sinlat) + Math.cos(lat1)*Math.cos(lat2)*(sinlon*sinlon);
             double c = 2 * Math.asin (Math.min(1.0, Math.sqrt(a)));
 
-            double distanciaEnKilometros =  Math.floor(radioTerrestre * c * 10) / 10; // se trunca a un decimal
-            return distanciaEnKilometros;
+            return Math.floor(radioTerrestre * c * 10) / 10; // se trunca a un decimal
+
     }
 
     /**

@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         presenterGasolineras = new PresenterGasolineras();
         presenterGasolineras.cargarCoordenadasDummy(); //Cargo los datos desde memoria en la lista de PuntoConocido
         spinner=(Spinner) findViewById(R.id.spinnerId); //Identifico la vista
-        stringAdapter=new ArrayAdapter<String>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas()); //Determino el formato y la información a mostrar en el spinner
+        stringAdapter=new ArrayAdapter<>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas()); //Determino el formato y la información a mostrar en el spinner
         stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown); //Determino el formato de los elementos que se despliegan al seleccionar el spinner
         spinner.setAdapter(stringAdapter); //Asigno al spinner su adapter
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() { //Indico el comportamiento ante el evento de seleccionar un item en el spinner o no hacerlo
