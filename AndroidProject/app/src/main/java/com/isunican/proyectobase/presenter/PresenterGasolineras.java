@@ -48,6 +48,14 @@ public class PresenterGasolineras {
         this.gasolineras = l;
     }
 
+    public List<PuntoConocido> getPuntosPuntoConocido() {
+        return puntosPuntoConocido;
+    }
+
+    public void setPuntosPuntoConocido(List<PuntoConocido> puntosPuntoConocido) {
+        this.puntosPuntoConocido = puntosPuntoConocido;
+    }
+
     /**
      * Metodo privado que se utiliza para ordenar por precio el diesel más barato.
      * Para esto se utiliza la clase Collections con su metodo sort, cuya eficiencia
@@ -175,11 +183,11 @@ public class PresenterGasolineras {
      * @param etiqueta
      * @return PuntoConocido
      */
-    private PuntoConocido buscarCoordenadaPorEtiqueta(String etiqueta){
+    public PuntoConocido buscarCoordenadaPorEtiqueta(String etiqueta){
         PuntoConocido salida=null;
         int i=0;
         boolean salirBucle=false;
-        while(i< puntosPuntoConocido.size()|| !salirBucle){
+        while(i< puntosPuntoConocido.size()&& !salirBucle){
             if(puntosPuntoConocido.get(i).getEtiquetaCoordenada().equals(etiqueta)){
                 salida= puntosPuntoConocido.get(i);
                 salirBucle=true;

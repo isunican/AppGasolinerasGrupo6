@@ -1,14 +1,8 @@
 package com.isunican.proyectobase.views;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -19,16 +13,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.isunican.proyectobase.R;
 import com.isunican.proyectobase.model.Gasolinera;
-import com.isunican.proyectobase.presenter.PresenterGasolineras;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UrgenciaActivity extends AppCompatActivity {
