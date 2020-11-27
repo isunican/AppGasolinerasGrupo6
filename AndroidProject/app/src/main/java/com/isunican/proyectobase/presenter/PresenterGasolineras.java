@@ -23,7 +23,7 @@ import java.util.List;
 public class PresenterGasolineras {
 
     private List<Gasolinera> gasolineras;
-    private List<PuntoConocido> puntosPuntoConocido; //Se crea un listado de puntos conocidos de los cuales despues obtener sus etiquetas para el desplegable de la interfaz y sus coordenadas para calcular distancias.
+    private List<PuntoConocido> puntosPuntoConocido; //Se crea un listado de puntos conocidos de los cuales despues se obtienen sus etiquetas para el desplegable de la interfaz y sus coordenadas para calcular distancias.
 
     //URLs para obtener datos de las gasolineras
     //https://sedeaplicaciones.minetur.gob.es/ServiciosRESTCarburantes/PreciosCarburantes/help
@@ -179,7 +179,7 @@ public class PresenterGasolineras {
     }
 
     /**
-     * Metodo auxiliar para buscar un determinado punto conocido a partir de su etiqueta identificativa
+     * Metodo auxiliar para buscar un determinado punto conocido a partir de su etiqueta identificativa.
      * @param etiqueta
      * @return PuntoConocido
      */

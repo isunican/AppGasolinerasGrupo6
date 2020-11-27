@@ -108,8 +108,8 @@ public class ParserJSONGasolineras {
         double gasoleoA = 0.0;
         double gasoleoB = 0.0; //Incluyo el gasoleoB
         double sinplomo95 = 0.0;
-        double latitud=0.0;
-        double longitud=0.0;
+        double latitud=0.0; //Incluyo la latitud
+        double longitud=0.0; //Incluyo la longitud
         while(reader.hasNext()){
             String name = reader.nextName();
 

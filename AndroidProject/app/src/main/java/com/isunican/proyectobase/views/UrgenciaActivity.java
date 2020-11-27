@@ -26,7 +26,7 @@ public class UrgenciaActivity extends AppCompatActivity {
     ArrayAdapter<Gasolinera> adapter;
     ListView listViewGasolineras;
     Toast toast;
-    TextView puntoReferencia; //Se utiliza para mostrar la etiqueta pasado desde la MainActivity
+    TextView puntoReferencia; //Se utiliza para mostrar la etiqueta pasada desde la MainActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +34,17 @@ public class UrgenciaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_urgencia);
 
         Bundle bundle = getIntent().getExtras(); //Se saca el bundle del intent
-        gasolineras = bundle.getParcelableArrayList("ListaGasolinerasCercanas"); //Se saca del bundle la lista de gasolineras pasadas de la actividad anterior
+        gasolineras = bundle.getParcelableArrayList("ListaGasolinerasCercanas"); //Se saca del bundle la lista de gasolineras pasada de la actividad anterior
         Intent intent=getIntent(); //Se obtiene el intent
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.mipmap.ic_launcher_gasolinera2_foreground);
         puntoReferencia=findViewById(R.id.textView4); //Se le da valor a la vista
         puntoReferencia.setText(intent.getExtras().getString("Etiqueta")); //Se obtiene del intent la etiqueta pasada de la actividad anterior y se asigna al TextView
         adapter = new UrgenciaActivity.GasolineraUrgenciaArrayAdapter(this, 0, gasolineras); //Se crea un adapter GasolineraArrayAdapter al que se le pasa la lista de gasolineras a mostrar en el ListView
-        listViewGasolineras = findViewById(R.id.listViewGasolineras); //Se le da valor al ListView
+        listViewGasolineras = findViewById(R.id.listViewGasolineras); //Se le da valor al ListView a partir de su id
         if (!gasolineras.isEmpty()) { //Si la lista de gasolineras no esta vacia:
             // datos obtenidos con exito
-            listViewGasolineras.setAdapter(adapter); //Se asigna el adapter al ListView para que muestre la lista de gasolineras ¡
+            listViewGasolineras.setAdapter(adapter); //Se asigna el adapter al ListView para que muestre la lista de gasolineras
             toast = Toast.makeText(getApplicationContext(), getResources().getString(R.string.datos_exito), Toast.LENGTH_LONG);
         }
         if (toast != null) {
