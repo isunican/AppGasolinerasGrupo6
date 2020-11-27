@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         presenterGasolineras = new PresenterGasolineras();
         presenterGasolineras.cargarCoordenadasDummy(); //Cargo los datos desde memoria en la lista de PuntoConocido
-        spinner=(Spinner) findViewById(R.id.spinnerId); //Identifico la vista
+        spinner=(Spinner) findViewById(R.id.spinnerId); //Obtengo la vista a partir de su identificacion
         stringAdapter=new ArrayAdapter<>(MainActivity.this,R.layout.textview_spinner,presenterGasolineras.mostrarEtiquetasCoordenadas()); //Determino el formato y la información a mostrar en el spinner
         stringAdapter.setDropDownViewResource(R.layout.textview_spinner_dropdown); //Determino el formato de los elementos que se despliegan al seleccionar el spinner
         spinner.setAdapter(stringAdapter); //Asigno al spinner su adapter
@@ -156,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
             presenterGasolineras.eliminarGasolinerasSinGasoleoB(); //Se eliminan de la lista las gasolineras que no disponen del combustible que nos interesa
 
-            if(presenterGasolineras.getGasolineras().isEmpty()){ //Si al eliminar las gasolineras sin el combustible ocurre que no quedan gasolineras se muestra un mensaje informando del error, usando un AlertDialog
+            if(presenterGasolineras.getGasolineras().isEmpty()){ //Si al eliminar las gasolineras sin el combustible ocurre que no quedan gasolineras, se muestra un mensaje informando del error usando un AlertDialog
 
                 AlertDialog.Builder builder=new AlertDialog.Builder(this);
                 builder.setTitle(R.string.tituloDialogoNoHayGasolinerasConDichoCombustible);
@@ -164,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton(R.string.botonDeAceptarDialogoError, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss(); //Al seleccionar el boton aceptar desaparece el AlertDialog ya que la finalidad era la de informar y mantener el mensaje hasta seleccionar el boton
+                        dialog.dismiss(); //Al seleccionar el boton aceptar desaparece el AlertDialog ya que la finalidad del mensaje era la de informar y mantenerlo hasta seleccionar el boton
                     }
                 });
                 AlertDialog dialog = builder.create();
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
 
             }else { //Si al eliminar las gasolineras sin el combustible sigue habiendo gasolineras:
                 presenterGasolineras.anhadirDistanciaEntrePuntoYGasolineras(etiqueta); //Anhado la distancia que hay desde el punto indicado por la etiqueta y todas las gasolineras a cada gasolinera
-                presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido(); //Las gasolineras se ordenan por la distancia hay entre cada una de ellas y el punto de referencia seleccionado
+                presenterGasolineras.ordenarGasolinerasPorDistanciaAPuntoConocido(); //Las gasolineras se ordenan por la distancia que hay entre cada una de ellas y el punto de referencia seleccionado
                 Intent intentUrgencia = new Intent(MainActivity.this, UrgenciaActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelableArrayList("ListaGasolinerasCercanas", (ArrayList<Gasolinera>) presenterGasolineras.getGasolineras()); //Se prepara mediante un bundle la lista de gasolineras de interes ordenadas para enviar

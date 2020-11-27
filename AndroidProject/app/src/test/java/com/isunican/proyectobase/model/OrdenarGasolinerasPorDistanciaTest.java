@@ -8,7 +8,7 @@ import static org.junit.Assert.fail;
 
 
 /**
- * Clase de prueba para verificar que el comportamiento de sus metodos es el esperado. Para detectar posibles errores.
+ * Clase de prueba para verificar que el comportamiento de sus metodos es el esperado, con el fin de detectar posibles errores.
  */
 public class OrdenarGasolinerasPorDistanciaTest {
 

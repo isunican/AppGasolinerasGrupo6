@@ -13,7 +13,7 @@ public class PuntoConocido {
     private double longitud=0.0;
 
     /*
-    Se le pasan al contructor todos los valores para los atributos
+     Se le pasan al contructor todos los valores para los atributos
      */
     public PuntoConocido(String etiquetaCoordenada, double latitud, double longitud) {
         this.etiquetaCoordenada = etiquetaCoordenada;
@@ -22,7 +22,7 @@ public class PuntoConocido {
     }
 
     /*
-    Metodos para modificar y obtener los valores almacenados en los atributos
+     Metodos para modificar y obtener los valores almacenados en los atributos
      */
     public String getEtiquetaCoordenada() {
         return etiquetaCoordenada;
@@ -51,8 +51,8 @@ public class PuntoConocido {
 
 
     /*
-    Siempre se tienen que redefinir los metodos toString() para obtener la información del objeto reunida, equal() para poder comparar objetos del mismo tipo, hashCode para poder generar una clave identificativa
-    unica para el objeto
+     Siempre se tienen que redefinir los metodos toString() para obtener la información del objeto reunida, equal() para poder comparar objetos del mismo tipo, hashCode para poder generar una clave identificativa
+     unica para el objeto
      */
     @Override
     public String toString() {

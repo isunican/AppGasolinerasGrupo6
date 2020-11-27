@@ -13,7 +13,7 @@ import java.util.Objects;
 ------------------------------------------------------------------
 */
 
-public class Gasolinera implements Parcelable, Comparable<Gasolinera> {
+public class Gasolinera implements Parcelable, Comparable<Gasolinera> { //Implementa Comparable para poder ordenar las gasolineras por el precio del gasoleo B.
     private double distanciaEntreGasolineraYPunto =0.0; //Se anhade este atributo que indica la distancia entre la presente gasolinera y un punto de referencia.
     private int ideess;
     private double latitud; //Se ha incluido el elemento latitud que no estaba previamente.

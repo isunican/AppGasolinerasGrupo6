@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Clase de prueba para verificar que el comportamiento de sus metodos es el esperado. Para detectar posibles errores.
+ * Clase de prueba para verificar que el comportamiento de sus metodos es el esperado, con el fin de detectar posibles errores.
  */
 public class PresenterGasolinerasTest {
 
@@ -38,7 +38,7 @@ public class PresenterGasolinerasTest {
         //Caso de prueba UPG.1b : La etiqueta que se pasa como parametro al metodo buscarCoordenadaPorEtiqueta() no se encuentra en ningún PuntoConocido.
             assertEquals(null,presenterGasolineras.buscarCoordenadaPorEtiqueta("abcdefg"));
 
-        //Caso de prueba UPG.1c : La etiqueta que se pasa como parametro al metodo buscarCoordenadaPorEtiqueta() es null por lo que no se encuentra ningun PuntoConocido.
+        //Caso de prueba UPG.1c : La etiqueta que se pasa como parametro al metodo buscarCoordenadaPorEtiqueta() es puntero a null por lo que no se encuentra ningun PuntoConocido.
             assertEquals(null,presenterGasolineras.buscarCoordenadaPorEtiqueta(null));
     }
 }
